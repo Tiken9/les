@@ -20,7 +20,7 @@ from les.backend_solvers import backend_solvers_pb2
 from les.backend_solvers.knapsack_solver import fractional_knapsack_solver
 try:
   from les.backend_solvers import scip
-except ImportError, e:
+except ImportError as e:
   logging.warning('SCIP is not supported: %s', e)
 
 _SOLVERS_TABLE = {}

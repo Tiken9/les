@@ -19,8 +19,7 @@ import gzip
 import types
 from scipy import sparse
 import string
-import StringIO
-
+import io
 from les.utils import logging
 
 
@@ -68,7 +67,7 @@ class Decoder(object):
                                          gzip.GzipFile)):
       self._stream = filename_or_stream
       data = filename_or_stream.read()
-    elif isinstance(filename_or_stream, StringIO.StringIO):
+    elif isinstance(filename_or_stream, io.StringIO):
       self._stream = filename_or_stream
       data = filename_or_stream.getvalue()
     elif isinstance(filename_or_stream, types.StringType):
@@ -83,7 +82,7 @@ class Decoder(object):
       raise TypeError('data must be a string or unicode: %s' % type(data))
     if len(data) == 0:
       raise ValueError()
-    self._buffer = StringIO.StringIO(data)
+    self._buffer = io.StringIO(data)
     section_name = None
     def get_first_word():
       for i in range(len(self._line)):

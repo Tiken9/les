@@ -39,7 +39,7 @@ class DummyExecutor(executor_base.ExecutorBase):
     try:
       solver.load_model(model)
       solver.solve()
-    except Error, e:
+    except Error as e:
       # TODO: send back a report.
       logging.exception("Cannot execute given request: cannot solve the model.")
       return None

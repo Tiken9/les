@@ -101,14 +101,14 @@ def use_setuptools(version=DEFAULT_VERSION, download_base=DEFAULT_URL,
         return do_download()
     try:
         pkg_resources.require("setuptools>="+version); return
-    except pkg_resources.VersionConflict, e:
+    except pkg_resources.VersionConflict as e:
         if was_imported:
-            print >>sys.stderr, (
+            print(
             "The required version of setuptools (>=%s) is not available, and\n"
             "can't be installed while this script is running. Please install\n"
             " a more recent version first, using 'easy_install -U setuptools'."
-            "\n\n(Currently using %r)"
-            ) % (version, e.args[0])
+            f"\n\n(Currently using {(version, e.args[0])})"
+            )
             sys.exit(2)
     except pkg_resources.DistributionNotFound:
         pass
@@ -177,7 +177,7 @@ def main(argv, version=DEFAULT_VERSION):
                 os.unlink(egg)
     else:
         if setuptools.__version__ == '0.0.1':
-            print >>sys.stderr, (
+            print(
             "You have an obsolete version of setuptools installed.  Please\n"
             "remove it from your system entirely before rerunning this script."
             )
@@ -199,8 +199,8 @@ def main(argv, version=DEFAULT_VERSION):
             from setuptools.command.easy_install import main
             main(argv)
         else:
-            print "Setuptools version",version,"or greater has been installed."
-            print '(Run "ez_setup.py -U setuptools" to reinstall or upgrade.)'
+            print("Setuptools version",version,"or greater has been installed.")
+            print('(Run "ez_setup.py -U setuptools" to reinstall or upgrade.)')
 
 def update_md5(filenames):
     """Update our built-in md5 registry"""
@@ -223,7 +223,7 @@ def update_md5(filenames):
 
     match = re.search("\nmd5_data = {\n([^}]+)}", src)
     if not match:
-        print >>sys.stderr, "Internal error!"
+        print("Internal error!")
         sys.exit(2)
 
     src = src[:match.start(1)] + repl + src[match.end(1):]

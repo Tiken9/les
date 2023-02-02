@@ -34,7 +34,7 @@ class DrawInteractionGraph(command_base.CommandBase):
   def run(self):
     try:
       model = mp_model.build(self._args.file)
-    except Exception, e:
+    except Exception as e:
       logging.exception('Cannot read the model.')
       return
     g = interaction_graph.InteractionGraph(model)

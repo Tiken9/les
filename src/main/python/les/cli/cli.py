@@ -60,7 +60,7 @@ class CLI(object):
       fq_module = '.'.join([commands.__name__, mod])
       try:
         __import__(fq_module)
-      except ImportError, e:
+      except ImportError as e:
         self.exit_and_fail(e)
       for (_, cls) in inspect.getmembers(sys.modules[fq_module],
                                          inspect.isclass):
@@ -82,7 +82,7 @@ class CLI(object):
     self._cmds[name] = cls
 
   def exit_and_fail(self, message):
-    print message
+    print(message)
     exit(0)
 
   def run(self, argv=sys.argv):

@@ -15,12 +15,12 @@ class MetisPartGraphDecomposer(Decomposer):
     edgecuts, parts = metis.part_graph(g, n, recursive=False, objtype="cut",
                                        numbering=0, minconn=True, iptype="edge")
     groups = []
-    for i in xrange(n):
+    for i in range(n):
       groups.append([])
     for i, j in enumerate(parts):
       groups[j].append(i)
-    print parts
-    print groups
+    print(parts)
+    print(groups)
 
 if __name__ == "__main__":
   from les.problems.bilp_problem import BILPProblem

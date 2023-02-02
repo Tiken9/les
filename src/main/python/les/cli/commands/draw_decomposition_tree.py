@@ -31,7 +31,7 @@ class DrawDecompositionTree(command_base.CommandBase):
     decomposer = decomposers.get_instance_of(self._args.decomposer_id, model)
     try:
       decomposer.decompose()
-    except Exception, e:
+    except Exception as e:
       logging.exception('Cannot decompose the model.')
       return
     g = decomposer.get_decomposition_tree()

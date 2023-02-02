@@ -89,7 +89,7 @@ class LocalEliminationDriver(driver_base.DriverBase):
     start_time = timeit.default_timer()
     try:
       self._decomposer.decompose()
-    except Exception, e:
+    except Exception as e:
       logging.exception("Decomposition failed.")
       return
     logging.info("Model was decomposed in %f second(s)."

@@ -187,7 +187,7 @@ class SQLiteSolutionTable(db_solution_table_base.DBSolutionTableBase):
         conn = self.get_data_store().get_connection()
         conn.executescript(sql_script)
         self.get_data_store().release_connection(conn)
-      except sqlite3.OperationalError, e:
+      except sqlite3.OperationalError as e:
         logging.warning('SQLite script %s: %s' % (sql_script, e))
         raise Error()
 

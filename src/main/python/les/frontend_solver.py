@@ -80,7 +80,7 @@ class FrontendSolver(mp_solver_base.MPSolverBase):
       self._executor.stop()
       self._driver.stop()
       return
-    except Exception, e:
+    except Exception as e:
       logging.exception("Driver failed.")
       self._executor.stop()
       return
