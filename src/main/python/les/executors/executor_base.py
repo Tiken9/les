@@ -14,7 +14,7 @@
 
 import logging
 import threading
-import Queue
+from queue import Queue
 
 
 class Error(Exception):

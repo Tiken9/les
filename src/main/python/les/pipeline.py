@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import Queue
+from queue import Queue
 
 from les import mp_model
 
@@ -85,8 +85,8 @@ class Pipeline(object):
   """
 
   def __init__(self):
-    self._requests = Queue.Queue()
-    self._responses = Queue.Queue()
+    self._requests = Queue()
+    self._responses = Queue()
 
   def has_responses(self):
     return not self._responses.empty()

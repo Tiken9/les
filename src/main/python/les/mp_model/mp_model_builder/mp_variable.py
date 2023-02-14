@@ -111,8 +111,8 @@ class MPVariable(Term):
 
   def set_name(self, name):
     if isinstance(name, str):
-      name = unicode(name)
-    if not type(name) is unicode:
+      name = str(name)
+    if not type(name) is str:
       raise TypeError('name must be a unicode: %s' % type(name))
     self._name = self.name = name
 

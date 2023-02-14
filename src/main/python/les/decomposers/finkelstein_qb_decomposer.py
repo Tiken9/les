@@ -59,7 +59,7 @@ def _get_indices(m, i):
   start = m.indptr[i]
   size = m.indptr[i + 1] - start
   result = []
-  for j in xrange(start, start + size):
+  for j in range(start, start + size):
     result.append(m.indices[j])
   return result
 
@@ -84,7 +84,7 @@ class FinkelsteinQBDecomposer(decomposer_base.DecomposerBase):
     tree = DecompositionTree(self._model)
     tree.add_node(prev_model)
     tree.set_root(prev_model)
-    for i in xrange(len(self._u) - 2, -1, -1):
+    for i in range(len(self._u) - 2, -1, -1):
       model = self._model.slice(self._u[i], s[i + 1] | self._m[i] | s[i])
       tree.add_node(model)
       tree.add_edge(prev_model, model,
@@ -116,7 +116,7 @@ class FinkelsteinQBDecomposer(decomposer_base.DecomposerBase):
     # TODO(d2rk): use interaction graph?
     g = networkx.Graph()
     g.add_nodes_from(range(m.shape[1]))
-    for i in xrange(m.shape[0]):
+    for i in range(m.shape[0]):
       J_ = _get_indices(m, i)
       for j in range(len(J_) - 1):
         j_to_i_mapping[J_[j]].add(i)

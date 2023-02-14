@@ -14,7 +14,7 @@
 
 import itertools
 
-from les.ext.google.operations_research.linear_solver import pywraplp
+from ortools.linear_solver import pywraplp
 
 from les import mp_model
 from les.mp_model import mp_solution
@@ -61,6 +61,7 @@ class GoogleORLinearSolver(mp_solver_base.MPSolverBase):
     self._vars = [None] * model.get_num_columns()
     for i in range(model.get_num_columns()):
       var = self._vars[i] = self._solver.BoolVar(model.columns_names[i])
+      print('_ggogle', self._solver, '\n')
       self._solver.SetObjectiveCoefficient(var, model.objective_coefficients[i])
     # Build constraints
     if model.maximization():

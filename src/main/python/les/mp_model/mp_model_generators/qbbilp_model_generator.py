@@ -98,7 +98,7 @@ class QBBILPModelGenerator(mp_model_generator_base.MPModelGeneratorBase):
 
   @classmethod
   def fix_params(self, params):
-    params = dict(self.default_params.items() + params.items())
+    params = {**self.default_params, **params}
     def _fix_range(v):
       return v and Range(not isinstance(v, tuple) and (None, v) or v) or None
     for key in ('num_constraints', 'num_variables', 'num_blocks',

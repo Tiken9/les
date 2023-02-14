@@ -32,7 +32,7 @@ FRAKTIONAL_KNAPSACK_SOLVER_ID = getattr(backend_solvers_pb2,
 
 _DEFAULT_SOLVERS_TABLE = {}
 if 'les.backend_solvers.scip' in sys.modules:
-  _DEFAULT_SOLVERS_TABLE[SCIP_ID] = scip.SCIP
+    _DEFAULT_SOLVERS_TABLE[SCIP_ID] = scip.SCIP
 _SOLVERS_TABLE.update(_DEFAULT_SOLVERS_TABLE)
 
 _RELAXATION_SOLVERS_TABLE = {
@@ -42,7 +42,7 @@ _SOLVERS_TABLE.update(_RELAXATION_SOLVERS_TABLE)
 
 def get_default_solver_id():
   if len(_DEFAULT_SOLVERS_TABLE):
-    return _DEFAULT_SOLVERS_TABLE.keys()[0]
+    return list(_DEFAULT_SOLVERS_TABLE.keys())[0]
   return None
 
 def get_instance_of(solver_id, *args, **kwargs):

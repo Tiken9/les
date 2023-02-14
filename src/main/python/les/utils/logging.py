@@ -22,5 +22,6 @@ capture_warnings = captureWarnings
 get_logger = getLogger
 
 DEFAULT_LOG_FORMAT = "[%(asctime)s][%(levelname).1s][%(module)-25s] %(message)s"
-basic_config(level=CRITICAL, format=DEFAULT_LOG_FORMAT)
+basic_config(level=DEBUG, format=DEFAULT_LOG_FORMAT)
 capture_warnings(True)
+

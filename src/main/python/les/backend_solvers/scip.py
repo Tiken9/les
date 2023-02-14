@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from les import mp_model
-from les.ext.google.operations_research.linear_solver import pywraplp
+from ortools.linear_solver import pywraplp
 from les.backend_solvers import _google_or_linear_solver
 
 

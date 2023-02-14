@@ -80,14 +80,14 @@ _FORMAT_EXT_TO_DECODER_MAP = {
 }
 
 _SENSE_STR_TO_OPERATOR = {
-  'L'  : relational.Le,
-  'G'  : relational.Ge,
-  'E'  : relational.Eq,
+  'L': relational.Le,
+  'G': relational.Ge,
+  'E': relational.Eq,
 
-  '<=' : relational.Le,
-  '<'  : relational.Lt,
-  '>=' : relational.Ge,
-  '>'  : relational.Gt,
+  '<=': relational.Le,
+  '<': relational.Lt,
+  '>=': relational.Ge,
+  '>': relational.Gt,
 }
 
 
@@ -532,7 +532,7 @@ class MPModelBuilder(object):
     :param name: A string that represents model name.
     :raises: :exc:`TypeError`
     """
-    if not type(name) is types.StringType and not isinstance(name, unicode):
+    if not isinstance(name, bytes) and not isinstance(name, str):
       raise TypeError('name must be a string or unicode: %s' % type(name))
     self._name = name
     return self
