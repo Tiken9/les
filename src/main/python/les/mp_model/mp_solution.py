@@ -61,7 +61,7 @@ class MPSolution(object):
     :returns: A list of strings.
     '''
     if not self._vars_names is None:
-      return self._vars_names.keys()
+      return list(self._vars_names.keys())
     return []
 
   def get_variables_values(self):

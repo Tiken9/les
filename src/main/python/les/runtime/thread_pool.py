@@ -26,7 +26,7 @@ __all__ = ['make_requests', 'NoResultsPending', 'NoWorkersAvailable',
 
 import sys
 import threading
-import Queue
+import queue
 import traceback
 
 class Error(Exception):
@@ -101,7 +101,7 @@ class Worker(threading.Thread):
         break
       try:
         request = self._requests_queue.get(True, self._poll_timeout)
-      except Queue.Empty:
+      except queue.Empty:
         continue
       else:
         if self._dismissed.isSet():
@@ -196,8 +196,8 @@ class ThreadPool(object):
        always set ``timeout > 0`` when calling ``ThreadPool.put_request()`` and
        catch ``Queue.Full`` exceptions.
     """
-    self._requests_queue = Queue.Queue(q_size)
-    self._results_queue = Queue.Queue(resq_size)
+    self._requests_queue = queue.Queue(q_size)
+    self._results_queue = queue.Queue(resq_size)
     self.workers = []
     self.dismissedWorkers = []
     self.workRequests = {}
@@ -254,7 +254,7 @@ class ThreadPool(object):
         if request.callback and not (request.exception and request.exc_callback):
             request.callback(request, result)
         del self.workRequests[request.requestID]
-      except Queue.Empty:
+      except queue.Empty:
         break
 
   def wait(self):

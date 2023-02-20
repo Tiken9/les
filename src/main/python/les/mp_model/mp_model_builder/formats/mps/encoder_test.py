@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import StringIO
+from io import StringIO
 
 from les.mp_model import mp_model_builder
 from les.mp_model.mp_model_builder.formats import mps
@@ -34,7 +34,7 @@ class EncoderTest(unittest.TestCase):
       [7, 6, 9, 7, 3, 5])
     model1.set_name('DEMO1')
     model1.set_objective_name('PRODUCT')
-    stream = StringIO.StringIO()
+    stream = StringIO()
     mps.encode(stream, model1)
     model2 = mp_model_builder.MPModelBuilder.build_from(mps.decode(stream))
     self.assert_equal(model1.get_name(), model2.get_name())

@@ -254,7 +254,7 @@ class MPModelBuilder(object):
       return cls.build_from_expressions(*args, **kwargs)
     if isinstance(args[0], mps.Decoder):
       return cls.build_from_mps(args[0])
-    elif type(args[0]) is types.StringType:
+    elif type(args[0]) is str:
       return cls.build_from_file(args[0])
     else:
       raise TypeError("Don't know how to handle this model.")
@@ -377,7 +377,7 @@ class MPModelBuilder(object):
 
   @classmethod
   def convert_sense_to_operator(cls, sense):
-    if isinstance(sense, unicode):
+    if isinstance(sense, str):
       sense = str(sense)
     if type(sense) is types.BuiltinFunctionType:
       return sense
@@ -418,7 +418,7 @@ class MPModelBuilder(object):
     :returns: A list of :class:`~les.model.mp_constraint.MPConstraint`
       instances.
     """
-    return self._cons.values()
+    return list(self._cons.values())
 
   def get_name(self):
     """Returns the model name. Returns :attr:`DEFAULT_MODEL_NAME` if name wasn't
@@ -457,14 +457,14 @@ class MPModelBuilder(object):
     .. note:: The variables come in order they are stored in the constraint
               matrix.
     """
-    return self._vars.values()
+    return list(self._vars.values())
 
   def get_variable_by_name(self, name):
     """Returns variable by name or `None` if such variable cannot be found.
 
     :raises: :exc:`TypeError`
     """
-    if not isinstance(name, unicode):
+    if not isinstance(name, str):
       raise TypeError('name must be a unicode: %s' % type(name))
     return self._vars.get(name, None)
 

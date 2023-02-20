@@ -30,7 +30,7 @@ def _extract_indices(m, i):
   start = m.indptr[i]
   size = m.indptr[i + 1] - start
   result = []
-  for j in xrange(start, start + size):
+  for j in range(start, start + size):
     result.append(m.indices[j])
   return result
 
@@ -48,10 +48,10 @@ class InteractionGraph(networkx.Graph):
     if not isinstance(model, mp_model.MPModel):
       raise TypeError()
     # TODO: improve this
-    for p in xrange(model.get_num_rows()):
+    for p in range(model.get_num_rows()):
       J = _extract_indices(model.rows_coefficients, p)
-      for i in xrange(0, len(J)):
-        for j in xrange(i, len(J)):
+      for i in range(0, len(J)):
+        for j in range(i, len(J)):
           self.add_edge(model.columns_names[J[i]],
                         model.columns_names[J[j]])
     self._model = model

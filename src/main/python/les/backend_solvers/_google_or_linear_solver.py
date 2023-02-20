@@ -61,11 +61,10 @@ class GoogleORLinearSolver(mp_solver_base.MPSolverBase):
     self._vars = [None] * model.get_num_columns()
     for i in range(model.get_num_columns()):
       var = self._vars[i] = self._solver.BoolVar(model.columns_names[i])
-      print('_ggogle', self._solver, '\n')
-      self._solver.SetObjectiveCoefficient(var, model.objective_coefficients[i])
+      self._solver.Objective().SetCoefficient(var, model.objective_coefficients[i])
     # Build constraints
     if model.maximization():
-      self._solver.SetMaximization()
+      self._solver.Objective().SetMaximization()
     else:
       raise NotImplementedError()
     infinity = self._solver.Infinity()
@@ -80,7 +79,7 @@ class GoogleORLinearSolver(mp_solver_base.MPSolverBase):
       else:
         raise ValueError("Unknown row sense: %s" % model.rows_senses[i])
       cons = self._solver.Constraint(lb, ub, model.rows_names[i] or '')
-      for j, v in itertools.izip(map(int, row.indices), map(float, row.data)):
+      for j, v in zip(map(int, row.indices), map(float, row.data)):
         cons.SetCoefficient(self._vars[j], v)
 
   def get_solution(self):
@@ -96,6 +95,6 @@ class GoogleORLinearSolver(mp_solver_base.MPSolverBase):
     self._solution.set_status(_RESULT_STATUS_MAP[result_status])
     if not result_status == pywraplp.Solver.OPTIMAL:
       return
-    self._solution.set_objective_value(self._solver.ObjectiveValue())
+    self._solution.set_objective_value(self._solver.Objective().Value())
     self._solution.set_variables_values(self._model.columns_names,
                                    [var.SolutionValue() for var in self._vars])

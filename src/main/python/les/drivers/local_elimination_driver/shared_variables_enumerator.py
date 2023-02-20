@@ -90,7 +90,7 @@ class SharedVariablesEnumerator(generator_base.GeneratorBase):
       raise TypeError('local_vars should be a tuple: %s' % local_vars)
     if not len(shared_vars):
       raise Error('shared_vars cannot be empty.')
-    if not all(isinstance(name, unicode) for name in shared_vars):
+    if not all(isinstance(name, str) for name in shared_vars):
       raise TypeError()
     if not len(local_vars):
       raise Error('local_vars cannot be empty.')
@@ -102,13 +102,13 @@ class SharedVariablesEnumerator(generator_base.GeneratorBase):
       self._local_vars_indices = [domain_model.get_columns_names().index(name)
                                   for name in local_vars]
     except ValueError:
-      raise Error('Domain model does not containt this variable: %s' % name)
+      raise Error(f'Domain model does not containt this variable:')
     self._model = domain_model
     self._n = 1 << len(shared_vars)
     self._index = 0
     # TODO(d2rk): this is maximization pattern, add minimization pattern
     if domain_model.maximization():
-      self._mask_generator = xrange(self._n - 1, -1, -1)
+      self._mask_generator = range(self._n - 1, -1, -1)
     else:
       raise NotImplementedError()
     self._template = template = _Template()
@@ -138,7 +138,7 @@ class SharedVariablesEnumerator(generator_base.GeneratorBase):
     As the result, the model ``m5`` contains two variables `x1` and `x2`, while
     `x3`, `x4` and `x5` were substituted by 1, 0, and 1 respectively.
     '''
-    if not type(mask) in (int, long):
+    if not type(mask) in (int, int):
       raise TypeError('mask can be an int or long: %s' % type(mask))
     solution_base = mp_model.MPSolution()
     solution_base.set_variables_values(self._model.get_columns_names(),
@@ -183,7 +183,7 @@ class SharedVariablesEnumerator(generator_base.GeneratorBase):
     '''
     return self._index < self._n
 
-  def next(self):
+  def __next__(self):
     '''Returns a model and base solution.
 
     :see: :func:`gen`.

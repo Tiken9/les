@@ -21,5 +21,5 @@ class GeneratorBase:
   def has_next(self):
     raise NotImplementedError()
 
-  def next(self):
+  def __next__(self):
     raise NotImplementedError()

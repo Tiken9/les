@@ -24,13 +24,13 @@ from les import *
 def solve(model):
   model.pprint()
   model.optimize()
-  print "Objective value:", model.get_objective_value()
-  print "Variables:"
+  print("Objective value:", model.get_objective_value())
+  print("Variables:")
   for i in range(model.get_num_columns()):
     print("%15s = %f" % (model.columns_names[i], model.columns_values[i]))
 
 def cpp_style_api():
-  print "C++ style API"
+  print("C++ style API")
   model = MPModelBuilder.build_from_scratch(
     [8, 2, 5, 5, 8, 3, 9, 7, 6],
     [[2, 3, 4, 1, 0, 0, 0, 0, 0],
@@ -41,10 +41,10 @@ def cpp_style_api():
      [0, 0, 0, 0, 0, 0, 3, 4, 1]],
     ['L'] * 6,
     [7, 6, 9, 7, 3, 5])
-  solve(model)
+  # solve(model)
 
 def natural_language_api():
-  print "Natural language API"
+  print("Natural language API")
   builder = MPModelBuilder()
   x1, x2, x3, x4, x5, x6, x7, x8, x9 = (builder.add_binary_variable() for i in
                                         range(9))

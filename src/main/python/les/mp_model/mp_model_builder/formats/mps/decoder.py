@@ -18,6 +18,7 @@ import bz2
 import gzip
 import types
 from scipy import sparse
+from io import IOBase
 import string
 import io
 from les.utils import logging
@@ -59,39 +60,51 @@ class Decoder(object):
       stream object.
     :raises: :exc:`TypeError`
     '''
+
     if isinstance(filename_or_stream, str):
       with open(filename_or_stream, 'r') as stream:
         self._stream = stream
         data = stream.read()
-    elif isinstance(filename_or_stream, (types.FileType, bz2.BZ2File,
+
+    elif isinstance(filename_or_stream, io.StringIO):
+
+      self._stream = filename_or_stream
+      data = filename_or_stream.getvalue()
+
+    elif isinstance(filename_or_stream, (IOBase, bz2.BZ2File,
                                          gzip.GzipFile)):
       self._stream = filename_or_stream
       data = filename_or_stream.read()
-    elif isinstance(filename_or_stream, io.StringIO):
-      self._stream = filename_or_stream
-      data = filename_or_stream.getvalue()
-    elif isinstance(filename_or_stream, types.StringType):
+
+    elif isinstance(filename_or_stream, bytes):
       data = filename_or_stream
     else:
       raise TypeError()
+
     self.decode_from_string(data)
 
   def decode_from_string(self, data):
     '''Parses problem from given string.'''
-    if not isinstance(data, str) and not isinstance(data, unicode):
+    if not isinstance(data, str) and not isinstance(data, bytes):
       raise TypeError('data must be a string or unicode: %s' % type(data))
     if len(data) == 0:
       raise ValueError()
+
     self._buffer = io.StringIO(data)
     section_name = None
+
     def get_first_word():
-      for i in range(len(self._line)):
-        if self._line[i] in string.whitespace: break
+      i = len(self._line)
+      for j in range(i):
+        if self._line[j] in string.whitespace:
+          return self._line[0:j]
       return self._line[0:i]
+
+
     while self._get_next_line():
       if not len(self._line.strip()) or self._line.strip().startswith(COMMENT):
         continue
-      if self._line[0] in string.letters:
+      if self._line[0] in string.ascii_letters:
         section_name = get_first_word()
         if section_name == 'NAME':
           fields = self._line.split()
@@ -144,15 +157,17 @@ class Decoder(object):
     if sense == 'N':
       self._obj_name = name
       return
+
     self._rows_senses.append(str(sense))
     self._rows_names.append(str(name))
-    self._rows_coefs = self._rows_coefs.reshape((len(self._rows_names),
-                                                 self._rows_coefs.shape[1]))
+
+    self._rows_coefs = sparse.lil_matrix((len(self._rows_names), 1), dtype=float)
     self._rows_rhs.append(None)
 
   def _decode_columns_section_entry(self):
     fields = self._line.split()
-    column_name, row_name, value = unicode(fields[0]), unicode(fields[1]), fields[2]
+    column_name, row_name, value = str(fields[0]), str(fields[1]), fields[2]
+
     try:
       j = self._cols_names.index(column_name)
     except ValueError:
@@ -174,7 +189,7 @@ class Decoder(object):
 
   def _decode_rhs_section_entry(self):
     fields = self._get_line_fields()
-    rhs_name, row_name, value = unicode(fields[0]), unicode(fields[1]), float(fields[2])
+    rhs_name, row_name, value = str(fields[0]), str(fields[1]), float(fields[2])
     self._rows_rhs[self._rows_names.index(row_name)] = value
     if len(fields) > 3:
       self._rows_rhs[self._rows_names.index(fields[3])] = float(fields[4])
