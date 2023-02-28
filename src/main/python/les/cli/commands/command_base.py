@@ -14,19 +14,19 @@
 
 class CommandBase(object):
 
-  def __init__(self, args):
-    self._args = args
+    def __init__(self, args):
+        self._args = args
 
-  @classmethod
-  def setup_argparser(cls, argparser):
-    if hasattr(cls, 'default_arguments'):
-      for name, kwargs in cls.default_arguments:
-        argparser.add_argument(name, **kwargs)
-      return
-    raise NotImplementedError()
+    @classmethod
+    def setup_argparser(cls, argparser):
+        if hasattr(cls, 'default_arguments'):
+            for name, kwargs in cls.default_arguments:
+                argparser.add_argument(name, **kwargs)
+            return
+        raise NotImplementedError()
 
-  def run(self):
-    raise NotImplementedError()
+    def run(self):
+        raise NotImplementedError()
 
-  def cleanup(self):
-    raise NotImplementedError()
+    def cleanup(self):
+        raise NotImplementedError()

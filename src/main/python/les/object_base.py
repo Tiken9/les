@@ -14,8 +14,9 @@
 
 class Cloneable:
 
-  def clone(self):
-    raise NotImplementedError()
+    def clone(self):
+        raise NotImplementedError()
+
 
 class ObjectBase(object):
-  '''Base object class within framework environment.'''
+    '''Base object class within framework environment.'''

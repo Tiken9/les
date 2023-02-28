@@ -18,32 +18,33 @@ from les.solution_tables import solution_table_base
 
 
 class DataStore(object):
-  '''This class represents interface to the actual data stores such as SQLite,
-  MySQL, PostgreSQL, etc.
-  '''
-
-  def __init__(self, name):
-    if not type(name) is types.StringType:
-      raise TypeError('name must be a string')
-    self._name = name
-
-  def get_name(self):
-    return self._name
-
-  def get_connection(self):
-    '''Attempts to establish connection with data store and returns Connection
-    object.
+    '''This class represents interface to the actual data stores such as SQLite,
+    MySQL, PostgreSQL, etc.
     '''
-    raise NotImplementedError()
+
+    def __init__(self, name):
+        if not type(name) is str:
+            raise TypeError('name must be a string')
+        self._name = name
+
+    def get_name(self):
+        return self._name
+
+    def get_connection(self):
+        '''Attempts to establish connection with data store and returns Connection
+        object.
+        '''
+        raise NotImplementedError()
+
 
 class DBSolutionTableBase(solution_table_base.SolutionTableBase):
-  '''Database based solution table.'''
+    '''Database based solution table.'''
 
-  def __init__(self, data_store):
-    solution_table_base.SolutionTableBase.__init__(self)
-    if not isinstance(data_store, DataStore):
-      raise TypeError()
-    self._data_store = data_store
+    def __init__(self, data_store):
+        solution_table_base.SolutionTableBase.__init__(self)
+        if not isinstance(data_store, DataStore):
+            raise TypeError()
+        self._data_store = data_store
 
-  def get_data_store(self):
-    return self._data_store
+    def get_data_store(self):
+        return self._data_store

@@ -17,24 +17,24 @@ from les.mp_model import mp_model
 
 class KnapsackModel(mp_model.MPModel):
 
-  def __init__(self, model=None):
-    mp_model.MPModel.__init__(self, model)
+    def __init__(self, model=None):
+        mp_model.MPModel.__init__(self, model)
 
-  def set_rows(self, *args, **kwargs):
-    mp_model.MPModel.set_rows(self, *args, **kwargs)
-    if len(set(self.rows_senses)) != 1:
-      raise Exception("Cannot automatically merge constraints, rows senses are "
-                      "not identical: %s" % self.rows_senses)
-    self.rows_senses = [self.rows_senses[0]]
-    self.rows_coefficients = self.rows_coefficients.sum(0)
-    self.rows_rhs = [sum(self.rows_rhs)]
-    return self
+    def set_rows(self, *args, **kwargs):
+        mp_model.MPModel.set_rows(self, *args, **kwargs)
+        if len(set(self.rows_senses)) != 1:
+            raise Exception("Cannot automatically merge constraints, rows senses are "
+                            "not identical: %s" % self.rows_senses)
+        self.rows_senses = [self.rows_senses[0]]
+        self.rows_coefficients = self.rows_coefficients.sum(0)
+        self.rows_rhs = [sum(self.rows_rhs)]
+        return self
 
-  def get_weights(self):
-    return self.rows_coefficients.tolist()[0]
+    def get_weights(self):
+        return self.rows_coefficients.tolist()[0]
 
-  def get_max_weight(self):
-    return self.rows_rhs[0]
+    def get_max_weight(self):
+        return self.rows_rhs[0]
 
 
 KnapsackModel.get_profits = KnapsackModel.get_objective_coefficients

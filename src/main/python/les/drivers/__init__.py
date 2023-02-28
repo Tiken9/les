@@ -18,18 +18,17 @@ from les.utils import logging
 from les.drivers import drivers_pb2
 from les.drivers.local_elimination_driver import LocalEliminationDriver
 
-
 LOCAL_ELIMINATION_DRIVER = drivers_pb2.LOCAL_ELIMINATION_DRIVER
 
 _DRIVERS_TABLE = {
-  LOCAL_ELIMINATION_DRIVER: LocalEliminationDriver
+    LOCAL_ELIMINATION_DRIVER: LocalEliminationDriver
 }
 
 
 def get_instance_of(driver_id, *args, **kwargs):
-  if not isinstance(driver_id, int):
-    raise TypeError()
-  if not driver_id in _DRIVERS_TABLE:
-    return None
-  driver_class = _DRIVERS_TABLE[driver_id]
-  return driver_class(*args, **kwargs)
+    if not isinstance(driver_id, int):
+        raise TypeError()
+    if not driver_id in _DRIVERS_TABLE:
+        return None
+    driver_class = _DRIVERS_TABLE[driver_id]
+    return driver_class(*args, **kwargs)

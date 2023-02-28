@@ -27,8 +27,10 @@ Read more about format specs:
 from les.mp_model.mp_model_builder.formats.mps.encoder import Encoder
 from les.mp_model.mp_model_builder.formats.mps.decoder import Decoder
 
+
 def decode(filename_or_stream):
-  return Decoder(filename_or_stream)
+    return Decoder(filename_or_stream)
+
 
 def encode(filename_or_stream, data):
-  return Encoder(filename_or_stream, data)
+    return Encoder(filename_or_stream, data)

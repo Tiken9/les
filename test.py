@@ -23,17 +23,21 @@ TEST_FILE_SUFFIX = '*_test.py'
 TOP_DIR = os.path.dirname(os.path.realpath(__file__))
 SRC_DIR = os.path.join(TOP_DIR, 'src', 'main', 'python')
 
+
 def make_testsuite():
-  """Returns test suite."""
-  return unittest.TestLoader().discover(SRC_DIR, TEST_FILE_SUFFIX)
+    """Returns test suite."""
+    return unittest.TestLoader().discover(SRC_DIR, TEST_FILE_SUFFIX)
+
 
 def run_tests():
-  suite = make_testsuite()
-  unittest.TextTestRunner(verbosity=DEFAULT_VERBOSITY_LEVEL).run(suite)
+    suite = make_testsuite()
+    unittest.TextTestRunner(verbosity=DEFAULT_VERBOSITY_LEVEL).run(suite)
+
 
 def main():
-  run_tests()
-  return 0
+    run_tests()
+    return 0
+
 
 if __name__ == '__main__':
-  exit(main())
+    exit(main())

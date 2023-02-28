@@ -14,5 +14,5 @@
 
 class MPModelGeneratorBase(object):
 
-  def gen(self):
-    raise NotImplementedError
+    def gen(self):
+        raise NotImplementedError

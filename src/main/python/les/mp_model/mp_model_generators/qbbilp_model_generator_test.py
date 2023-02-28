@@ -23,27 +23,27 @@ from les.utils import unittest
 
 class QBBILPModelGeneratorTest(unittest.TestCase):
 
-  def setUp(self):
-    self._g = qbbilp_model_generator.QBBILPModelGenerator()
+    def setUp(self):
+        self._g = qbbilp_model_generator.QBBILPModelGenerator()
 
-  def test_gen_random_model(self):
-    model = self._g.gen(num_variables=400, num_constraints=200)
-    self.assert_equal(200, model.get_num_rows())
-    self.assert_equal(400, model.get_num_columns())
+    def test_gen_random_model(self):
+        model = self._g.gen(num_variables=400, num_constraints=200)
+        self.assert_equal(200, model.get_num_rows())
+        self.assert_equal(400, model.get_num_columns())
 
-  def test_gen_random_model_with_fixed_num_blocks(self):
-    num_blocks = 3
-    model = self._g.gen(num_variables=2, num_constraints=2,
-                          num_blocks=num_blocks)
-    self.assert_is_none(model)
-    model = self._g.gen(num_constraints=6, num_variables=9,
-                        num_blocks=num_blocks, fix_block_size=True,
-                        separator_size=1)
-    decomposer = finkelstein_qb_decomposer.FinkelsteinQBDecomposer(model)
-    decomposer.decompose()
-    models = decomposer.get_decomposition_tree().get_models()
-    self.assert_equal(num_blocks, len(models))
+    def test_gen_random_model_with_fixed_num_blocks(self):
+        num_blocks = 3
+        model = self._g.gen(num_variables=2, num_constraints=2,
+                            num_blocks=num_blocks)
+        self.assert_is_none(model)
+        model = self._g.gen(num_constraints=6, num_variables=9,
+                            num_blocks=num_blocks, fix_block_size=True,
+                            separator_size=1)
+        decomposer = finkelstein_qb_decomposer.FinkelsteinQBDecomposer(model)
+        decomposer.decompose()
+        models = decomposer.get_decomposition_tree().get_models()
+        self.assert_equal(num_blocks, len(models))
 
 
 if __name__ == "__main__":
-  unittest.main()
+    unittest.main()

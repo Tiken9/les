@@ -19,16 +19,20 @@ models.
 
 from les import mp_model
 
+
 def build_mp_model(*args, **kwargs):
-  return mp_model.build(*args, **kwargs)
+    return mp_model.build(*args, **kwargs)
+
 
 def find_mp_model_by_name(name):
-  raise NotImplementedError()
+    raise NotImplementedError()
+
 
 def get_all_mp_models():
-  raise NotImplementedError()
+    raise NotImplementedError()
+
 
 def optimize_mp_model(model, optimization_parameters):
-  if not isinstance(model, mp_model.MPModel):
-    raise TypeError()
-  return model.optimize(optimization_parameters)
+    if not isinstance(model, mp_model.MPModel):
+        raise TypeError()
+    return model.optimize(optimization_parameters)

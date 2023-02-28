@@ -21,25 +21,25 @@ from les.drivers import drivers_pb2
 
 class OptimizationParameters(object):
 
-  def __init__(self):
-    self._proto = mp_model_pb2.OptimizationParameters()
-    self.driver.default_backend_solver = backend_solvers.get_default_solver_id()
+    def __init__(self):
+        self._proto = mp_model_pb2.OptimizationParameters()
+        self.driver.default_backend_solver = backend_solvers.get_default_solver_id()
 
-  @property
-  def driver(self):
-    return self._proto.Extensions[drivers_pb2.driver_parameters]
+    @property
+    def driver(self):
+        return self._proto.Extensions[drivers_pb2.driver_parameters]
 
-  @property
-  def executor(self):
-    return self._proto.Extensions[executors_pb2.executor_parameters]
+    @property
+    def executor(self):
+        return self._proto.Extensions[executors_pb2.executor_parameters]
 
-  @property
-  def decomposer(self):
-    return self._proto.Extensions[decomposers_pb2.decomposer_parameters]
+    @property
+    def decomposer(self):
+        return self._proto.Extensions[decomposers_pb2.decomposer_parameters]
 
-  def get_protobuf(self):
-    return self._proto
+    def get_protobuf(self):
+        return self._proto
 
-  @classmethod
-  def build_from_protobuf(cls):
-    raise NotImplementedError()
+    @classmethod
+    def build_from_protobuf(cls):
+        raise NotImplementedError()

@@ -21,20 +21,20 @@ from les.utils import unittest
 
 class Knapsack01SolverTest(unittest.TestCase):
 
-  def test_solve(self):
-    knapsack = [0.0, 1.0, 1.0, 1.0]
-    value = 21.0
-    model = mp_model_builder.MPModelBuilder.build_from([8, 11, 6, 4],
-                                                       [[5, 7, 4, 3]],
-                                                       ['L'],
-                                                       [14])
-    solver = knapsack_01_solver.Knapsack01Solver()
-    solver.load_model(model)
-    solver.solve()
-    solution = solver.get_solution()
-    self.assert_equal(value, solution.get_objective_value())
-    self.assert_equal(knapsack, solution.get_variables_values().tolist())
+    def test_solve(self):
+        knapsack = [0.0, 1.0, 1.0, 1.0]
+        value = 21.0
+        model = mp_model_builder.MPModelBuilder.build_from([8, 11, 6, 4],
+                                                           [[5, 7, 4, 3]],
+                                                           ['L'],
+                                                           [14])
+        solver = knapsack_01_solver.Knapsack01Solver()
+        solver.load_model(model)
+        solver.solve()
+        solution = solver.get_solution()
+        self.assert_equal(value, solution.get_objective_value())
+        self.assert_equal(knapsack, solution.get_variables_values().tolist())
 
 
 if __name__ == "__main__":
-  unittest.main()
+    unittest.main()

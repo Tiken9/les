@@ -23,31 +23,33 @@ import sys
 
 PYTHON_SRC_DIR = os.path.join('src', 'main', 'python')
 
+
 def main():
-  setuptools.setup(
-    author='Oleksandr Sviridenko',
-    author_email='oleks.sviridenko@gmail.com',
-    classifiers=[
-      'License :: OSI Approved :: Apache Software License',
-      'Topic :: Scientific/Engineering :: Mathematics'
-    ],
-    description='Local Elimination Solver',
-    install_requires=[
-      'networkx',
-      'scipy',
-      'sympy',
-      'numpy',
-      'protobuf >= 2.1.0',
-      'matplotlib',
-    ],
-    license='Apache',
-    name='les',
-    packages=setuptools.find_packages(PYTHON_SRC_DIR),
-    package_dir={'': PYTHON_SRC_DIR},
-    test_suite='test.make_testsuite',
-    version='1.0.0'
-  )
-  return 0
+    setuptools.setup(
+        author='Oleksandr Sviridenko',
+        author_email='oleks.sviridenko@gmail.com',
+        classifiers=[
+            'License :: OSI Approved :: Apache Software License',
+            'Topic :: Scientific/Engineering :: Mathematics'
+        ],
+        description='Local Elimination Solver',
+        install_requires=[
+            'networkx',
+            'scipy',
+            'sympy',
+            'numpy',
+            'protobuf >= 2.1.0',
+            'matplotlib',
+        ],
+        license='Apache',
+        name='les',
+        packages=setuptools.find_packages(PYTHON_SRC_DIR),
+        package_dir={'': PYTHON_SRC_DIR},
+        test_suite='test.make_testsuite',
+        version='1.0.0'
+    )
+    return 0
+
 
 if __name__ == '__main__':
-  sys.exit(main())
+    sys.exit(main())

@@ -21,20 +21,20 @@ from les.utils import unittest
 
 class InteractionGraphTest(unittest.TestCase):
 
-  def test_constructor(self):
-    model = mp_model_builder.MPModelBuilder.build_from(
-      [8, 2, 5, 5, 8, 3, 9, 7, 6],
-      [[2., 3., 4., 1., 0., 0., 0., 0., 0.],
-       [1., 2., 3., 2., 0., 0., 0., 0., 0.],
-       [0., 0., 1., 4., 3., 4., 2., 0., 0.],
-       [0., 0., 2., 1., 1., 2., 5., 0., 0.],
-       [0., 0., 0., 0., 0., 0., 2., 1., 2.],
-       [0., 0., 0., 0., 0., 0., 3., 4., 1.]],
-      ['L'] * 6,
-      [7, 6, 9, 7, 3, 5])
-    g = interaction_graph.InteractionGraph(model)
-    self.assert_equal(9, g.get_num_nodes())
+    def test_constructor(self):
+        model = mp_model_builder.MPModelBuilder.build_from(
+            [8, 2, 5, 5, 8, 3, 9, 7, 6],
+            [[2., 3., 4., 1., 0., 0., 0., 0., 0.],
+             [1., 2., 3., 2., 0., 0., 0., 0., 0.],
+             [0., 0., 1., 4., 3., 4., 2., 0., 0.],
+             [0., 0., 2., 1., 1., 2., 5., 0., 0.],
+             [0., 0., 0., 0., 0., 0., 2., 1., 2.],
+             [0., 0., 0., 0., 0., 0., 3., 4., 1.]],
+            ['L'] * 6,
+            [7, 6, 9, 7, 3, 5])
+        g = interaction_graph.InteractionGraph(model)
+        self.assert_equal(9, g.get_num_nodes())
 
 
 if __name__ == "__main__":
-  unittest.main()
+    unittest.main()

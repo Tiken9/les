@@ -6,24 +6,24 @@ from google.protobuf.internal import builder as _builder
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import symbol_database as _symbol_database
+
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
-
 from les.mp_model import mp_model_pb2 as les_dot_mp__model_dot_mp__model__pb2
 
-
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1dles/executors/executors.proto\x12\rles.executors\x1a\x1bles/mp_model/mp_model.proto\"O\n\x12\x45xecutorParameters\x12\x39\n\x08\x65xecutor\x18\x01 \x02(\x0e\x32\x17.les.executors.Executor:\x0e\x44UMMY_EXECUTOR*3\n\x08\x45xecutor\x12\x12\n\x0e\x44UMMY_EXECUTOR\x10\x00\x12\x13\n\x0fTHREAD_EXECUTOR\x10\x01:d\n\x13\x65xecutor_parameters\x12$.les.mp_model.OptimizationParameters\x18\x66 \x01(\x0b\x32!.les.executors.ExecutorParameters')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\x1dles/executors/executors.proto\x12\rles.executors\x1a\x1bles/mp_model/mp_model.proto\"O\n\x12\x45xecutorParameters\x12\x39\n\x08\x65xecutor\x18\x01 \x02(\x0e\x32\x17.les.executors.Executor:\x0e\x44UMMY_EXECUTOR*3\n\x08\x45xecutor\x12\x12\n\x0e\x44UMMY_EXECUTOR\x10\x00\x12\x13\n\x0fTHREAD_EXECUTOR\x10\x01:d\n\x13\x65xecutor_parameters\x12$.les.mp_model.OptimizationParameters\x18\x66 \x01(\x0b\x32!.les.executors.ExecutorParameters')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'les.executors.executors_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
-  les_dot_mp__model_dot_mp__model__pb2.OptimizationParameters.RegisterExtension(executor_parameters)
+    les_dot_mp__model_dot_mp__model__pb2.OptimizationParameters.RegisterExtension(executor_parameters)
 
-  DESCRIPTOR._options = None
-  _EXECUTOR._serialized_start=158
-  _EXECUTOR._serialized_end=209
-  _EXECUTORPARAMETERS._serialized_start=77
-  _EXECUTORPARAMETERS._serialized_end=156
+    DESCRIPTOR._options = None
+    _EXECUTOR._serialized_start = 158
+    _EXECUTOR._serialized_end = 209
+    _EXECUTORPARAMETERS._serialized_start = 77
+    _EXECUTORPARAMETERS._serialized_end = 156
 # @@protoc_insertion_point(module_scope)

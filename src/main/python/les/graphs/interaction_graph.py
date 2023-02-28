@@ -27,37 +27,37 @@ from les import mp_model
 
 
 def _extract_indices(m, i):
-  start = m.indptr[i]
-  size = m.indptr[i + 1] - start
-  result = []
-  for j in range(start, start + size):
-    result.append(m.indices[j])
-  return result
+    start = m.indptr[i]
+    size = m.indptr[i + 1] - start
+    result = []
+    for j in range(start, start + size):
+        result.append(m.indices[j])
+    return result
 
 
 class InteractionGraph(networkx.Graph):
-  '''This class represents an interaction graph of a given model.'''
+    '''This class represents an interaction graph of a given model.'''
 
-  def __init__(self, model=None):
-    networkx.Graph.__init__(self)
-    self._model = None
-    if model:
-      self._read_model(model)
+    def __init__(self, model=None):
+        networkx.Graph.__init__(self)
+        self._model = None
+        if model:
+            self._read_model(model)
 
-  def _read_model(self, model):
-    if not isinstance(model, mp_model.MPModel):
-      raise TypeError()
-    # TODO: improve this
-    for p in range(model.get_num_rows()):
-      J = _extract_indices(model.rows_coefficients, p)
-      for i in range(0, len(J)):
-        for j in range(i, len(J)):
-          self.add_edge(model.columns_names[J[i]],
-                        model.columns_names[J[j]])
-    self._model = model
+    def _read_model(self, model):
+        if not isinstance(model, mp_model.MPModel):
+            raise TypeError()
+        # TODO: improve this
+        for p in range(model.get_num_rows()):
+            J = _extract_indices(model.rows_coefficients, p)
+            for i in range(0, len(J)):
+                for j in range(i, len(J)):
+                    self.add_edge(model.columns_names[J[i]],
+                                  model.columns_names[J[j]])
+        self._model = model
 
-  def get_num_nodes(self):
-    return len(self.nodes())
+    def get_num_nodes(self):
+        return len(self.nodes())
 
-  def get_model(self):
-    return self._model
+    def get_model(self):
+        return self._model

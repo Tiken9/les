@@ -18,19 +18,19 @@ from les.backend_solvers import _google_or_linear_solver
 
 
 class Error(Exception):
-  pass
+    pass
 
 
 class SCIP(_google_or_linear_solver.GoogleORLinearSolver):
-  """This class incapsulates SCIP solver represented by
-  :class:`linear_solver.scip_interface.SCIPInterface`.
-  """
+    """This class incapsulates SCIP solver represented by
+    :class:`linear_solver.scip_interface.SCIPInterface`.
+    """
 
-  def load_model(self, model):
-    if not isinstance(model, mp_model.MPModel):
-      raise TypeError()
-    solver = _google_or_linear_solver.pywraplp.Solver(
-      model.get_name(),
-      pywraplp.Solver.SCIP_MIXED_INTEGER_PROGRAMMING)
-    self._set_solver(solver)
-    _google_or_linear_solver.GoogleORLinearSolver.load_model(self, model)
+    def load_model(self, model):
+        if not isinstance(model, mp_model.MPModel):
+            raise TypeError()
+        solver = _google_or_linear_solver.pywraplp.Solver(
+            model.get_name(),
+            pywraplp.Solver.SCIP_MIXED_INTEGER_PROGRAMMING)
+        self._set_solver(solver)
+        _google_or_linear_solver.GoogleORLinearSolver.load_model(self, model)

@@ -14,13 +14,14 @@
 
 from les.mp_model.mp_model_builder import mp_variable
 
+
 class BinaryMPVariable(mp_variable.MPVariable):
-  """This class represents binary variable (also known as a dummy variable,
-  indicator variable, design variable, Boolean indicator, categorical variable).
+    """This class represents binary variable (also known as a dummy variable,
+    indicator variable, design variable, Boolean indicator, categorical variable).
 
-  :param name: The string that represents variable name.
-  """
+    :param name: The string that represents variable name.
+    """
 
-  def __init__(self, name=None):
-    mp_variable.MPVariable.__init__(self, 0.0, 1.0,
-                                    mp_variable.MPVariable.BINARY, name)
+    def __init__(self, name=None):
+        mp_variable.MPVariable.__init__(self, 0.0, 1.0,
+                                        mp_variable.MPVariable.BINARY, name)

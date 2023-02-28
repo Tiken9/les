@@ -18,13 +18,14 @@ from les.solution_tables import sqlite_solution_table
 SQLITE_SOLUTION_TABLE_ID = solution_tables_pb2.SQLITE_SOLUTION_TABLE
 
 _SOLUTION_TABLE_MAP = {
-  SQLITE_SOLUTION_TABLE_ID: sqlite_solution_table.SQLiteSolutionTable,
+    SQLITE_SOLUTION_TABLE_ID: sqlite_solution_table.SQLiteSolutionTable,
 }
 
+
 def get_instance_of(solution_table_id):
-  if not isinstance(solution_table_id, int):
-    raise TypeError()
-  if not solution_table_id in _SOLUTION_TABLE_MAP:
-    return None
-  solution_table_class = _SOLUTION_TABLE_MAP[solution_table_id]
-  return solution_table_class()
+    if not isinstance(solution_table_id, int):
+        raise TypeError()
+    if not solution_table_id in _SOLUTION_TABLE_MAP:
+        return None
+    solution_table_class = _SOLUTION_TABLE_MAP[solution_table_id]
+    return solution_table_class()

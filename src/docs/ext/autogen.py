@@ -36,9 +36,10 @@ OPTIONS = ['members',
            'undoc-members',
            # 'inherited-members', # disabled because there's a bug in sphinx
            'show-inheritance',
-          ]
+           ]
 
 INIT = '__init__.py'
+
 
 def makename(package, module):
     """Join package and module with a dot."""
@@ -51,23 +52,28 @@ def makename(package, module):
         name = module
     return name
 
+
 def write_file(name, text, opts):
     """Write the output file for module/package <name>."""
     if opts.dryrun:
         return
     fname = os.path.join(opts.destdir, "%s.%s" % (name, opts.suffix))
     if not opts.force and os.path.isfile(fname):
-        print 'File %s already exists, skipping.' % fname
+        print
+        'File %s already exists, skipping.' % fname
     else:
-        print 'Creating file %s.' % fname
+        print
+        'Creating file %s.' % fname
         f = open(fname, 'w')
         f.write(text)
         f.close()
 
+
 def format_heading(level, text):
     """Create a heading of <level> [1, 2 or 3 supported]."""
-    underlining = ['=', '-', '~', ][level-1] * len(text)
+    underlining = ['=', '-', '~', ][level - 1] * len(text)
     return '%s\n%s\n\n' % (text, underlining)
+
 
 def format_directive(module, package=None):
     """Create the automodule directive and add the options."""
@@ -76,12 +82,14 @@ def format_directive(module, package=None):
         directive += '    :%s:\n' % option
     return directive
 
+
 def create_module_file(package, module, opts):
     """Build the text of the file and write the file."""
     text = format_heading(1, '%s Module' % module)
     text += format_heading(2, ':mod:`%s` Module' % module)
     text += format_directive(module, package)
     write_file(makename(package, module), text, opts)
+
 
 def create_package_file(root, master_package, subroot, py_files, opts, subs):
     """Build the text of the file and write the file."""
@@ -114,25 +122,28 @@ def create_package_file(root, master_package, subroot, py_files, opts, subs):
 
     write_file(makename(master_package, subroot), text, opts)
 
+
 def create_modules_toc_file(master_package, modules, opts, name='index'):
-  """Create the module's index."""
-  text = format_heading(1, '%s' % opts.header)
-  text += '.. toctree::\n'
-  text += '   :maxdepth: %s\n\n' % opts.maxdepth
-  modules.sort()
-  prev_module = ''
-  for module in modules:
-    # look if the module is a subpackage and, if yes, ignore it
-    if module.startswith(prev_module + '.'):
-      continue
-    prev_module = module
-    text += '   %s\n' % module
-  write_file(name, text, opts)
+    """Create the module's index."""
+    text = format_heading(1, '%s' % opts.header)
+    text += '.. toctree::\n'
+    text += '   :maxdepth: %s\n\n' % opts.maxdepth
+    modules.sort()
+    prev_module = ''
+    for module in modules:
+        # look if the module is a subpackage and, if yes, ignore it
+        if module.startswith(prev_module + '.'):
+            continue
+        prev_module = module
+        text += '   %s\n' % module
+    write_file(name, text, opts)
+
 
 def shall_skip(module):
-  """Check if we want to skip this module."""
-  # skip it, if there is nothing (or just \n or \r\n) in the file
-  return os.path.getsize(module) < 3
+    """Check if we want to skip this module."""
+    # skip it, if there is nothing (or just \n or \r\n) in the file
+    return os.path.getsize(module) < 3
+
 
 def recurse_tree(path, excludes, opts):
     """
@@ -152,7 +163,7 @@ def recurse_tree(path, excludes, opts):
     tree = os.walk(path, False)
     for root, subs, files in tree:
         # keep only the Python script files
-        py_files =  sorted([f for f in files if os.path.splitext(f)[1] == '.py'])
+        py_files = sorted([f for f in files if os.path.splitext(f)[1] == '.py'])
         if INIT in py_files:
             py_files.remove(INIT)
             py_files.insert(0, INIT)
@@ -161,20 +172,20 @@ def recurse_tree(path, excludes, opts):
         # check if there are valid files to process
         # TODO: could add check for windows hidden files
         if "/." in root or "/_" in root \
-        or not py_files \
-        or is_excluded(root, excludes):
+                or not py_files \
+                or is_excluded(root, excludes):
             continue
         if INIT in py_files:
             # we are in package ...
-            if (# ... with subpackage(s)
-                subs
-                or
-                # ... with some module(s)
-                len(py_files) > 1
-                or
-                # ... with a not-to-be-skipped INIT file
-                not shall_skip(os.path.join(root, INIT))
-               ):
+            if (  # ... with subpackage(s)
+                    subs
+                    or
+                    # ... with some module(s)
+                    len(py_files) > 1
+                    or
+                    # ... with a not-to-be-skipped INIT file
+                    not shall_skip(os.path.join(root, INIT))
+            ):
                 subroot = root[len(path):].lstrip(os.path.sep).replace(os.path.sep, '.')
                 create_package_file(root, package_name, subroot, py_files, opts, subs)
                 toc.append(makename(package_name, subroot))
@@ -189,6 +200,7 @@ def recurse_tree(path, excludes, opts):
     # create the module's index
     if not opts.notoc:
         create_modules_toc_file(package_name, toc, opts)
+
 
 def normalize_excludes(rootpath, excludes):
     """
@@ -207,59 +219,64 @@ def normalize_excludes(rootpath, excludes):
         f_excludes.append(exclude)
     return f_excludes
 
-def is_excluded(root, excludes):
-  """Check if the directory is in the exclude list.
 
-  Note: by having trailing slashes, we avoid common prefix issues, like e.g. an
-        exlude "foo" also accidentally excluding "foobar".
-  """
-  sep = os.path.sep
-  if not root.endswith(sep):
-    root += sep
-  for exclude in excludes:
-    if root.startswith(exclude):
-      return True
-  return False
+def is_excluded(root, excludes):
+    """Check if the directory is in the exclude list.
+
+    Note: by having trailing slashes, we avoid common prefix issues, like e.g. an
+          exlude "foo" also accidentally excluding "foobar".
+    """
+    sep = os.path.sep
+    if not root.endswith(sep):
+        root += sep
+    for exclude in excludes:
+        if root.startswith(exclude):
+            return True
+    return False
+
 
 def main(args=[]):
-  """Parse and check the command line arguments."""
-  parser = optparse.OptionParser(usage="""usage: %prog [options] <package path> [exclude paths, ...]
+    """Parse and check the command line arguments."""
+    parser = optparse.OptionParser(usage="""usage: %prog [options] <package path> [exclude paths, ...]
 
 Note: By default this script will not overwrite already created files.""")
-  parser.add_option("-n", "--doc-header", action="store", dest="header",
-                    help="Documentation Header (default=LES)",
-                    default="LES")
-  parser.add_option("-d", "--dest-dir", action="store", dest="destdir",
-                    help="Output destination directory", default="")
-  parser.add_option("-s", "--suffix", action="store", dest="suffix",
-                    help="module suffix (default=txt)", default="txt")
-  parser.add_option("-m", "--maxdepth", action="store", dest="maxdepth",
-                    help="Maximum depth of submodules to show in the TOC (default=4)", type="int", default=4)
-  parser.add_option("-r", "--dry-run", action="store_true", dest="dryrun",
-                    help="Run the script without creating the files")
-  parser.add_option("-f", "--force", action="store_true", dest="force",
-                    help="Overwrite all the files")
-  parser.add_option("-t", "--no-toc", action="store_true", dest="notoc",
-                    help="Don't create the table of content file")
-  if not args:
-    (opts, args) = parser.parse_args()
-  else:
-    (opts, args) = parser.parse_args(args)
-  if not args:
-    parser.error("package path is required.")
-  else:
-    rootpath, excludes = args[0], args[1:]
-    if os.path.isdir(rootpath):
-      if opts.destdir and os.path.isdir(opts.destdir):
-        excludes = normalize_excludes(rootpath, excludes)
-        recurse_tree(rootpath, excludes, opts)
-      else:
-        print '%s is not a valid output destination directory.' % opts.destdir
+    parser.add_option("-n", "--doc-header", action="store", dest="header",
+                      help="Documentation Header (default=LES)",
+                      default="LES")
+    parser.add_option("-d", "--dest-dir", action="store", dest="destdir",
+                      help="Output destination directory", default="")
+    parser.add_option("-s", "--suffix", action="store", dest="suffix",
+                      help="module suffix (default=txt)", default="txt")
+    parser.add_option("-m", "--maxdepth", action="store", dest="maxdepth",
+                      help="Maximum depth of submodules to show in the TOC (default=4)", type="int", default=4)
+    parser.add_option("-r", "--dry-run", action="store_true", dest="dryrun",
+                      help="Run the script without creating the files")
+    parser.add_option("-f", "--force", action="store_true", dest="force",
+                      help="Overwrite all the files")
+    parser.add_option("-t", "--no-toc", action="store_true", dest="notoc",
+                      help="Don't create the table of content file")
+    if not args:
+        (opts, args) = parser.parse_args()
     else:
-      print '%s is not a valid directory.' % rootpath
+        (opts, args) = parser.parse_args(args)
+    if not args:
+        parser.error("package path is required.")
+    else:
+        rootpath, excludes = args[0], args[1:]
+        if os.path.isdir(rootpath):
+            if opts.destdir and os.path.isdir(opts.destdir):
+                excludes = normalize_excludes(rootpath, excludes)
+                recurse_tree(rootpath, excludes, opts)
+            else:
+                print
+                '%s is not a valid output destination directory.' % opts.destdir
+        else:
+            print
+            '%s is not a valid directory.' % rootpath
+
 
 if __name__ == "__main__":
-  main()
+    main()
 else:
-  main(["--suffix", "rst", "--dest-dir", os.path.join(SPHINX_DIR, "api"), "-t",
-        os.path.join(SPHINX_DIR, "..", "..", "les")])
+    main(["--suffix", "rst", "--dest-dir", os.path.join(SPHINX_DIR, "api"), "-t",
+          os.path.join(SPHINX_DIR, "..", "..", "les")])

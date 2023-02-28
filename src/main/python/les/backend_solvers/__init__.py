@@ -18,10 +18,11 @@ from les.utils import logging
 from les.backend_solvers import backend_solvers_pb2
 
 from les.backend_solvers.knapsack_solver import fractional_knapsack_solver
+
 try:
-  from les.backend_solvers import scip
+    from les.backend_solvers import scip
 except ImportError as e:
-  logging.warning('SCIP is not supported: %s', e)
+    logging.warning('SCIP is not supported: %s', e)
 
 _SOLVERS_TABLE = {}
 
@@ -36,22 +37,24 @@ if 'les.backend_solvers.scip' in sys.modules:
 _SOLVERS_TABLE.update(_DEFAULT_SOLVERS_TABLE)
 
 _RELAXATION_SOLVERS_TABLE = {
-  FRAKTIONAL_KNAPSACK_SOLVER_ID: fractional_knapsack_solver.FractionalKnapsackSolver,
+    FRAKTIONAL_KNAPSACK_SOLVER_ID: fractional_knapsack_solver.FractionalKnapsackSolver,
 }
 _SOLVERS_TABLE.update(_RELAXATION_SOLVERS_TABLE)
 
+
 def get_default_solver_id():
-  if len(_DEFAULT_SOLVERS_TABLE):
-    return list(_DEFAULT_SOLVERS_TABLE.keys())[0]
-  return None
+    if len(_DEFAULT_SOLVERS_TABLE):
+        return list(_DEFAULT_SOLVERS_TABLE.keys())[0]
+    return None
+
 
 def get_instance_of(solver_id, *args, **kwargs):
-  '''Returns an instance of the solver defined by `solver_id`, or `None`
-  otherwise.
-  '''
-  if not isinstance(solver_id, int):
-    raise TypeError()
-  if not solver_id in _SOLVERS_TABLE:
-    return None
-  solver_class = _SOLVERS_TABLE[solver_id]
-  return solver_class(*args, **kwargs)
+    '''Returns an instance of the solver defined by `solver_id`, or `None`
+    otherwise.
+    '''
+    if not isinstance(solver_id, int):
+        raise TypeError()
+    if not solver_id in _SOLVERS_TABLE:
+        return None
+    solver_class = _SOLVERS_TABLE[solver_id]
+    return solver_class(*args, **kwargs)

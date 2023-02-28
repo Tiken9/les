@@ -35,22 +35,22 @@ from les.mp_model.knapsack_model import KnapsackModel
 
 
 class KnapsackSolverBase(mp_solver_base.MPSolverBase):
-  '''Base solver class for knapsack derived solvers.'''
+    '''Base solver class for knapsack derived solvers.'''
 
-  def __init__(self):
-    mp_solver_base.MPSolverBase.__init__(self)
-    self._model = None
+    def __init__(self):
+        mp_solver_base.MPSolverBase.__init__(self)
+        self._model = None
 
-  def load_model(self, model):
-    """Loads model to be solved.
+    def load_model(self, model):
+        """Loads model to be solved.
 
-    :param model: A :class:`~les.mp_model.mp_model.MPModel` instance.
-    """
-    if not isinstance(model, KnapsackModel):
-      if isinstance(model, mp_model.MPModel):
-        model = mp_model_builder.MPModelBuilder.build_knapsack_model(model)
-      else:
-        raise TypeError()
-    else:
-      raise TypeError()
-    self._model = model
+        :param model: A :class:`~les.mp_model.mp_model.MPModel` instance.
+        """
+        if not isinstance(model, KnapsackModel):
+            if isinstance(model, mp_model.MPModel):
+                model = mp_model_builder.MPModelBuilder.build_knapsack_model(model)
+            else:
+                raise TypeError()
+        else:
+            raise TypeError()
+        self._model = model

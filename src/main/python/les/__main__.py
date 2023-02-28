@@ -18,8 +18,10 @@ import sys
 
 from les import cli
 
-def main(argv):
-  return cli.CLI().run(argv)
 
-if  __name__ == '__main__':
-  sys.exit(main(sys.argv))
+def main(argv):
+    return cli.CLI().run(argv)
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))

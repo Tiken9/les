@@ -21,26 +21,26 @@ from les.utils import unittest
 
 class EncoderTest(unittest.TestCase):
 
-  def test_encode(self):
-    model1 = mp_model_builder.MPModelBuilder.build_from(
-      [8, 2, 5, 5, 8, 3, 9, 7, 6],
-      [[2, 3, 4, 1, 0, 0, 0, 0, 0],
-       [1, 2, 3, 2, 0, 0, 0, 0, 0],
-       [0, 0, 1, 4, 3, 4, 2, 0, 0],
-       [0, 0, 2, 1, 1, 2, 5, 0, 0],
-       [0, 0, 0, 0, 0, 0, 2, 1, 2],
-       [0, 0, 0, 0, 0, 0, 3, 4, 1]],
-      ['L'] * 6,
-      [7, 6, 9, 7, 3, 5])
-    model1.set_name('DEMO1')
-    model1.set_objective_name('PRODUCT')
-    stream = StringIO()
-    mps.encode(stream, model1)
-    model2 = mp_model_builder.MPModelBuilder.build_from(mps.decode(stream))
-    self.assert_equal(model1.get_name(), model2.get_name())
-    self.assert_equal(model1.get_num_columns(), model2.get_num_columns())
-    self.assert_equal(model1.get_num_rows(), model2.get_num_rows())
+    def test_encode(self):
+        model1 = mp_model_builder.MPModelBuilder.build_from(
+            [8, 2, 5, 5, 8, 3, 9, 7, 6],
+            [[2, 3, 4, 1, 0, 0, 0, 0, 0],
+             [1, 2, 3, 2, 0, 0, 0, 0, 0],
+             [0, 0, 1, 4, 3, 4, 2, 0, 0],
+             [0, 0, 2, 1, 1, 2, 5, 0, 0],
+             [0, 0, 0, 0, 0, 0, 2, 1, 2],
+             [0, 0, 0, 0, 0, 0, 3, 4, 1]],
+            ['L'] * 6,
+            [7, 6, 9, 7, 3, 5])
+        model1.set_name('DEMO1')
+        model1.set_objective_name('PRODUCT')
+        stream = StringIO()
+        mps.encode(stream, model1)
+        model2 = mp_model_builder.MPModelBuilder.build_from(mps.decode(stream))
+        self.assert_equal(model1.get_name(), model2.get_name())
+        self.assert_equal(model1.get_num_columns(), model2.get_num_columns())
+        self.assert_equal(model1.get_num_rows(), model2.get_num_rows())
 
 
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()

@@ -16,23 +16,22 @@ from les.decomposers import finkelstein_qb_decomposer
 from les.decomposers import max_clique_decomposer
 from les.decomposers import decomposers_pb2
 
-
 FINKELSTEIN_QB_DECOMPOSER_ID = decomposers_pb2.QUASIBLOCK_FINKELSTEIN_DECOMPOSER
 MAX_CLIQUE_DECOMPOSER_ID = decomposers_pb2.MAX_CLIQUE_DECOMPOSER
 
 _DECOMPOSERS_TABLE = {
-  FINKELSTEIN_QB_DECOMPOSER_ID: finkelstein_qb_decomposer.FinkelsteinQBDecomposer,
-  MAX_CLIQUE_DECOMPOSER_ID: max_clique_decomposer.MaxCliqueDecomposer,
+    FINKELSTEIN_QB_DECOMPOSER_ID: finkelstein_qb_decomposer.FinkelsteinQBDecomposer,
+    MAX_CLIQUE_DECOMPOSER_ID: max_clique_decomposer.MaxCliqueDecomposer,
 }
 
 
 def get_instance_of(decomposer_id, *args, **kwargs):
-  '''Returns an instance of the decomposer defined by `decomposer_id`, or `None`
-  otherwise.
-  '''
-  if not isinstance(decomposer_id, int):
-    raise TypeError()
-  if not decomposer_id in _DECOMPOSERS_TABLE:
-    return None
-  decomposer_class = _DECOMPOSERS_TABLE[decomposer_id]
-  return decomposer_class(*args, **kwargs)
+    '''Returns an instance of the decomposer defined by `decomposer_id`, or `None`
+    otherwise.
+    '''
+    if not isinstance(decomposer_id, int):
+        raise TypeError()
+    if not decomposer_id in _DECOMPOSERS_TABLE:
+        return None
+    decomposer_class = _DECOMPOSERS_TABLE[decomposer_id]
+    return decomposer_class(*args, **kwargs)

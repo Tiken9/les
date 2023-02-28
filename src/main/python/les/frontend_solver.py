@@ -24,67 +24,67 @@ from les.utils import logging
 
 
 class Error(Exception):
-  pass
+    pass
 
 
 class FrontendSolver(mp_solver_base.MPSolverBase):
-  """This class implements the optimization logic of local elimination
-  solver.
-  """
+    """This class implements the optimization logic of local elimination
+    solver.
+    """
 
-  def __init__(self):
-    self._model = None
-    self._optimization_params = None
-    self._executor = None
-    self._pipeline = None
+    def __init__(self):
+        self._model = None
+        self._optimization_params = None
+        self._executor = None
+        self._pipeline = None
 
-  def get_model(self):
-    '''Returns model solved by this solver.
+    def get_model(self):
+        '''Returns model solved by this solver.
 
-    :returns: A :class:`~les.mp_model.mp_model.MPModel` instance.
-    '''
-    return self._model
+        :returns: A :class:`~les.mp_model.mp_model.MPModel` instance.
+        '''
+        return self._model
 
-  def load_model(self, model):
-    if not isinstance(model, mp_model.MPModel):
-      raise TypeError()
-    self._model = model
+    def load_model(self, model):
+        if not isinstance(model, mp_model.MPModel):
+            raise TypeError()
+        self._model = model
 
-  def solve(self, params=None):
-    if not self._model:
-      raise Error()
-    if params and not isinstance(params, OptimizationParameters):
-      raise TypeError()
-    if not params:
-      params = OptimizationParameters()
-    self._optimization_params = params
-    logging.info("Optimize model %s with %d rows and %d columns.",
-                 self._model.get_name(), self._model.get_num_rows(),
-                 self._model.get_num_columns())
-    self._pipeline = pipeline.Pipeline()
-    self._executor = executor_manager.get_instance_of(params.executor.executor,
-                                                      self._pipeline)
-    logging.info("Executor: %s", self._executor.__class__.__name__)
-    try:
-      self._driver = drivers.get_instance_of(params.driver.driver, self._model, params, self._pipeline)
-    except Exception:
-      logging.exception("Cannot create driver instance.")
-      return
-    logging.info("Driver: %s", self._driver.__class__.__name__)
-    logging.info("Default backend solver is %d", params.driver.default_backend_solver)
-    start_time = timeit.default_timer()
-    try:
-      self._executor.start()
-      self._driver.start()
-    except KeyboardInterrupt:
-      self._executor.stop()
-      self._driver.stop()
-      return
-    except Exception as e:
-      logging.exception("Driver failed.")
-      self._executor.stop()
-      return
-    self._executor.stop()
-    logging.info("Model was solved in %f second(s)"
-                 % (timeit.default_timer() - start_time,))
-    self._model.set_solution(self._driver.get_solution())
+    def solve(self, params=None):
+        if not self._model:
+            raise Error()
+        if params and not isinstance(params, OptimizationParameters):
+            raise TypeError()
+        if not params:
+            params = OptimizationParameters()
+        self._optimization_params = params
+        logging.info("Optimize model %s with %d rows and %d columns.",
+                     self._model.get_name(), self._model.get_num_rows(),
+                     self._model.get_num_columns())
+        self._pipeline = pipeline.Pipeline()
+        self._executor = executor_manager.get_instance_of(params.executor.executor,
+                                                          self._pipeline)
+        logging.info("Executor: %s", self._executor.__class__.__name__)
+        try:
+            self._driver = drivers.get_instance_of(params.driver.driver, self._model, params, self._pipeline)
+        except Exception:
+            logging.exception("Cannot create driver instance.")
+            return
+        logging.info("Driver: %s", self._driver.__class__.__name__)
+        logging.info("Default backend solver is %d", params.driver.default_backend_solver)
+        start_time = timeit.default_timer()
+        try:
+            self._executor.start()
+            self._driver.start()
+        except KeyboardInterrupt:
+            self._executor.stop()
+            self._driver.stop()
+            return
+        except Exception as e:
+            logging.exception("Driver failed.")
+            self._executor.stop()
+            return
+        self._executor.stop()
+        logging.info("Model was solved in %f second(s)"
+                     % (timeit.default_timer() - start_time,))
+        self._model.set_solution(self._driver.get_solution())

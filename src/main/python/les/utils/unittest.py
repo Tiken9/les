@@ -25,20 +25,21 @@ logging.disable(logging.CRITICAL)
 
 skip_if = skipIf
 
+
 class TestCase(TestCase):
-  """This class is a simple wrapper for unittest.TestCase class."""
+    """This class is a simple wrapper for unittest.TestCase class."""
 
-  assert_almost_equal = TestCase.assertAlmostEqual
-  assert_array_equal = testing.assert_array_equal
-  assert_equal = TestCase.assertEqual
-  assert_false = TestCase.assertFalse
-  assert_is_none = TestCase.assertIsNone
-  assert_is_not_none = TestCase.assertIsNotNone
-  assert_list_equal = TestCase.assertListEqual
-  assert_raises = TestCase.assertRaises
-  assert_sequence_equal = TestCase.assertSequenceEqual
-  assert_true = TestCase.assertTrue
+    assert_almost_equal = TestCase.assertAlmostEqual
+    assert_array_equal = testing.assert_array_equal
+    assert_equal = TestCase.assertEqual
+    assert_false = TestCase.assertFalse
+    assert_is_none = TestCase.assertIsNone
+    assert_is_not_none = TestCase.assertIsNotNone
+    assert_list_equal = TestCase.assertListEqual
+    assert_raises = TestCase.assertRaises
+    assert_sequence_equal = TestCase.assertSequenceEqual
+    assert_true = TestCase.assertTrue
 
-  def setUp(self, *args, **kwargs):
-    if hasattr(self, 'setup'):
-      return self.setup(*args, **kwargs)
+    def setUp(self, *args, **kwargs):
+        if hasattr(self, 'setup'):
+            return self.setup(*args, **kwargs)

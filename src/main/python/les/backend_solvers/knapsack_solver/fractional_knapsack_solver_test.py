@@ -21,46 +21,46 @@ from les.utils import unittest
 
 class FractionalKnapsackSolverTest(unittest.TestCase):
 
-  def test_solve1(self):
-    model = mp_model_builder.MPModelBuilder.build_from([8, 11, 6, 4],
-                                                       [[5, 7, 4, 3]],
-                                                       ['L'],
-                                                       [14])
-    solver = fractional_knapsack_solver.FractionalKnapsackSolver()
-    solver.load_model(model)
-    solver.solve()
-    solution = solver.get_solution()
-    self.assert_equal(22., solution.get_objective_value())
-    self.assert_equal([1.0, 1.0, 0.5, 0.0],
-                      solution.get_variables_values().tolist())
+    def test_solve1(self):
+        model = mp_model_builder.MPModelBuilder.build_from([8, 11, 6, 4],
+                                                           [[5, 7, 4, 3]],
+                                                           ['L'],
+                                                           [14])
+        solver = fractional_knapsack_solver.FractionalKnapsackSolver()
+        solver.load_model(model)
+        solver.solve()
+        solution = solver.get_solution()
+        self.assert_equal(22., solution.get_objective_value())
+        self.assert_equal([1.0, 1.0, 0.5, 0.0],
+                          solution.get_variables_values().tolist())
 
-  def test_solve2(self):
-    model = mp_model_builder.MPModelBuilder.build_from([50, 140, 60, 60],
-                                                       [[5, 20, 10, 12]],
-                                                       ['L'],
-                                                       [30])
-    solver = fractional_knapsack_solver.FractionalKnapsackSolver()
-    solver.load_model(model)
-    solver.solve()
-    solution = solver.get_solution()
-    self.assert_equal(220., solution.get_objective_value())
-    self.assert_equal([1., 1., 0.5, 0.],
-                      solution.get_variables_values().tolist())
+    def test_solve2(self):
+        model = mp_model_builder.MPModelBuilder.build_from([50, 140, 60, 60],
+                                                           [[5, 20, 10, 12]],
+                                                           ['L'],
+                                                           [30])
+        solver = fractional_knapsack_solver.FractionalKnapsackSolver()
+        solver.load_model(model)
+        solver.solve()
+        solution = solver.get_solution()
+        self.assert_equal(220., solution.get_objective_value())
+        self.assert_equal([1., 1., 0.5, 0.],
+                          solution.get_variables_values().tolist())
 
-  def test_solve_model_with_several_constraints(self):
-    model = mp_model_builder.MPModelBuilder.build_from([8, 11, 6, 4],
-                                                       [[1, 4, 2, 2],
-                                                        [4, 3, 2, 1]],
-                                                       ['L', 'L'],
-                                                       [7, 7])
-    solver = fractional_knapsack_solver.FractionalKnapsackSolver()
-    solver.load_model(model)
-    solver.solve()
-    solution = solver.get_solution()
-    self.assert_equal(22., solution.get_objective_value())
-    self.assert_equal([1.0, 1.0, 0.5, 0.0],
-                      solution.get_variables_values().tolist())
+    def test_solve_model_with_several_constraints(self):
+        model = mp_model_builder.MPModelBuilder.build_from([8, 11, 6, 4],
+                                                           [[1, 4, 2, 2],
+                                                            [4, 3, 2, 1]],
+                                                           ['L', 'L'],
+                                                           [7, 7])
+        solver = fractional_knapsack_solver.FractionalKnapsackSolver()
+        solver.load_model(model)
+        solver.solve()
+        solution = solver.get_solution()
+        self.assert_equal(22., solution.get_objective_value())
+        self.assert_equal([1.0, 1.0, 0.5, 0.0],
+                          solution.get_variables_values().tolist())
 
 
 if __name__ == "__main__":
-  unittest.main()
+    unittest.main()

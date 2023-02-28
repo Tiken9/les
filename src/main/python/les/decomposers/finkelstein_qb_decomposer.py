@@ -55,102 +55,103 @@ from les.decomposers import decomposer_base
 from les.graphs.decomposition_tree import DecompositionTree
 from les.utils import logging
 
+
 def _get_indices(m, i):
-  start = m.indptr[i]
-  size = m.indptr[i + 1] - start
-  result = []
-  for j in range(start, start + size):
-    result.append(m.indices[j])
-  return result
+    start = m.indptr[i]
+    size = m.indptr[i + 1] - start
+    result = []
+    for j in range(start, start + size):
+        result.append(m.indices[j])
+    return result
 
 
 class FinkelsteinQBDecomposer(decomposer_base.DecomposerBase):
-  '''This class represents Finkelstein QB decomposer for MP problems.
+    '''This class represents Finkelstein QB decomposer for MP problems.
 
-  :param model: A :class:`~les.mp_model.mp_model.MPModel` based model instance.
-  '''
-
-  def __init__(self, model):
-    decomposer_base.DecomposerBase.__init__(self, model)
-    self._u = []
-    self._s = []
-    self._m = []
-
-  def _build_decomposition_tree(self):
-    # TODO: fix this. Add default empty separators set.
-    s = self._s + [set()]
-    # TODO: check connectivity order.
-    prev_model = self._model.slice(self._u[-1], s[-2] | self._m[-1] | s[-1])
-    tree = DecompositionTree(self._model)
-    tree.add_node(prev_model)
-    tree.set_root(prev_model)
-    for i in range(len(self._u) - 2, -1, -1):
-      model = self._model.slice(self._u[i], s[i + 1] | self._m[i] | s[i])
-      tree.add_node(model)
-      tree.add_edge(prev_model, model,
-                    [self.get_model().get_columns_names()[i] for i in s[i + 1]])
-      prev_model = model
-    self._decomposition_tree = tree
-
-  def decompose(self, initial_cols=[0], max_separator_size=0,
-                merge_empty_blocks=True):
-    '''Decomposes model into submodels starting by initial cols. By default
-    starts from column 0. Default max separator size is 11.
-
-    :param initial_cols: A list of integers.
-    :param max_separator_size: An integer that represents max available
-      separator size.
-    :param merge_empty_blocks: ``True`` or ``False``, whether or not we need to
-      merge empty blocks.
+    :param model: A :class:`~les.mp_model.mp_model.MPModel` based model instance.
     '''
-    if max_separator_size:
-      raise NotImplementedError()
-    logging.info('Decompose model %s', self._model.get_name())
 
-    m = self._model.get_rows_coefficients()
+    def __init__(self, model):
+        decomposer_base.DecomposerBase.__init__(self, model)
+        self._u = []
+        self._s = []
+        self._m = []
 
-    j_to_i_mapping = {}
-    for j in range(m.shape[1]):
-      j_to_i_mapping[j] = set()
+    def _build_decomposition_tree(self):
+        # TODO: fix this. Add default empty separators set.
+        s = self._s + [set()]
+        # TODO: check connectivity order.
+        prev_model = self._model.slice(self._u[-1], s[-2] | self._m[-1] | s[-1])
+        tree = DecompositionTree(self._model)
+        tree.add_node(prev_model)
+        tree.set_root(prev_model)
+        for i in range(len(self._u) - 2, -1, -1):
+            model = self._model.slice(self._u[i], s[i + 1] | self._m[i] | s[i])
+            tree.add_node(model)
+            tree.add_edge(prev_model, model,
+                          [self.get_model().get_columns_names()[i] for i in s[i + 1]])
+            prev_model = model
+        self._decomposition_tree = tree
 
-    # TODO(d2rk): use interaction graph?
-    g = networkx.Graph()
-    g.add_nodes_from(range(m.shape[1]))
-    for i in range(m.shape[0]):
-      J_ = _get_indices(m, i)
-      for j in range(len(J_) - 1):
-        j_to_i_mapping[J_[j]].add(i)
-        for j_ in range(j + 1, len(J_)):
-          g.add_edge(J_[j], J_[j_])
-      j_to_i_mapping[J_[-1]].add(i)
+    def decompose(self, initial_cols=[0], max_separator_size=0,
+                  merge_empty_blocks=True):
+        '''Decomposes model into submodels starting by initial cols. By default
+        starts from column 0. Default max separator size is 11.
 
-    def get_neighbors(nodes):
-      neighbors = set()
-      for node in nodes:
-        neighbors.update(g.neighbors(node))
-      return neighbors
+        :param initial_cols: A list of integers.
+        :param max_separator_size: An integer that represents max available
+          separator size.
+        :param merge_empty_blocks: ``True`` or ``False``, whether or not we need to
+          merge empty blocks.
+        '''
+        if max_separator_size:
+            raise NotImplementedError()
+        logging.info('Decompose model %s', self._model.get_name())
 
-    self._m = [set(initial_cols) | get_neighbors(set(initial_cols))]
-    self._s = [set()]
-    self._u = [set()]
+        m = self._model.get_rows_coefficients()
 
-    i = len(self._m)
-    J = get_neighbors(self._m[i - 1])
-    while True:
-      M_ = J - self._m[i - 1] - self._s[i - 1]
-      if not len(M_):
-        break
-      T = get_neighbors(M_)
-      J_ = T - M_
-      self._m.append(M_)
-      self._u.append(set())
-      self._s.append(J_ & J)
-      self._m[i - 1] -= self._s[i]
-      for j in self._m[i - 1]:
-        self._u[i - 1].update(j_to_i_mapping[j])
-      J = T
-      i += 1
-    for j in self._m[i - 1]:
-      self._u[i - 1].update(j_to_i_mapping[j])
+        j_to_i_mapping = {}
+        for j in range(m.shape[1]):
+            j_to_i_mapping[j] = set()
 
-    self._build_decomposition_tree()
+        # TODO(d2rk): use interaction graph?
+        g = networkx.Graph()
+        g.add_nodes_from(range(m.shape[1]))
+        for i in range(m.shape[0]):
+            J_ = _get_indices(m, i)
+            for j in range(len(J_) - 1):
+                j_to_i_mapping[J_[j]].add(i)
+                for j_ in range(j + 1, len(J_)):
+                    g.add_edge(J_[j], J_[j_])
+            j_to_i_mapping[J_[-1]].add(i)
+
+        def get_neighbors(nodes):
+            neighbors = set()
+            for node in nodes:
+                neighbors.update(g.neighbors(node))
+            return neighbors
+
+        self._m = [set(initial_cols) | get_neighbors(set(initial_cols))]
+        self._s = [set()]
+        self._u = [set()]
+
+        i = len(self._m)
+        J = get_neighbors(self._m[i - 1])
+        while True:
+            M_ = J - self._m[i - 1] - self._s[i - 1]
+            if not len(M_):
+                break
+            T = get_neighbors(M_)
+            J_ = T - M_
+            self._m.append(M_)
+            self._u.append(set())
+            self._s.append(J_ & J)
+            self._m[i - 1] -= self._s[i]
+            for j in self._m[i - 1]:
+                self._u[i - 1].update(j_to_i_mapping[j])
+            J = T
+            i += 1
+        for j in self._m[i - 1]:
+            self._u[i - 1].update(j_to_i_mapping[j])
+
+        self._build_decomposition_tree()

@@ -17,48 +17,48 @@ from les.mp_model import mp_solution
 
 
 class Knapsack01Solver(knapsack_solver_base.KnapsackSolverBase):
-  """This class implements a dynamic programming algorithm for the 0-1 knapsack
-  problem.
-  """
+    """This class implements a dynamic programming algorithm for the 0-1 knapsack
+    problem.
+    """
 
-  def __init__(self):
-    knapsack_solver_base.KnapsackSolverBase.__init__(self)
+    def __init__(self):
+        knapsack_solver_base.KnapsackSolverBase.__init__(self)
 
-  def solve(self):
-    """Starts to solve knapsack problem."""
-    W = int(self._model.get_max_weight())
-    n = self._model.get_num_items() - 1
-    v = self._model.get_profits()
-    # TODO(d2rk): remove conversion.
-    w = [int(_) for _ in self._model.get_weights()]
-    c = []  # create an empty 2D array
-    for i in range(n + 1):  # c[i][j] = value of the optimal solution using
-      temp = [0] * (W + 1)  # items 1 through i and maximum weight j
-      c.append(temp)
-    for i in range(1, n + 1):
-      for j in range(1, W + 1):
-        if w[i] <= j:  # if item i will fit within weight j
-          # add item i if value is better
-          if v[i] + c[i - 1][j - w[i]] > c[i - 1][j]:
-            c[i][j] = v[i] + c[i - 1][j - w[i]]  # than without item i
-          else:
-            c[i][j] = c[i - 1][j]  # otherwise, don't add item i
-        else:
-          c[i][j] = c[i - 1][j]
-    self._solution = mp_solution.MPSolution()
-    self._solution.set_objective_value(float(c[n][W]))
-    # Set variables values.
-    i = len(c) - 1
-    W =  len(c[0])-1
-    # Set everything as not marked
-    vars_vals = [0.0] * (i + 1)
-    while (i >= 0 and W >=0):
-      if (i == 0 and c[i][W] >0) or c[i][W] != c[i-1][W]:
-        vars_vals[i] = 1.0
-        W = W - w[i]
-      i = i-1
-    self._solution.set_variables_values(self._model.get_columns_names(),
-                                        vars_vals)
+    def solve(self):
+        """Starts to solve knapsack problem."""
+        W = int(self._model.get_max_weight())
+        n = self._model.get_num_items() - 1
+        v = self._model.get_profits()
+        # TODO(d2rk): remove conversion.
+        w = [int(_) for _ in self._model.get_weights()]
+        c = []  # create an empty 2D array
+        for i in range(n + 1):  # c[i][j] = value of the optimal solution using
+            temp = [0] * (W + 1)  # items 1 through i and maximum weight j
+            c.append(temp)
+        for i in range(1, n + 1):
+            for j in range(1, W + 1):
+                if w[i] <= j:  # if item i will fit within weight j
+                    # add item i if value is better
+                    if v[i] + c[i - 1][j - w[i]] > c[i - 1][j]:
+                        c[i][j] = v[i] + c[i - 1][j - w[i]]  # than without item i
+                    else:
+                        c[i][j] = c[i - 1][j]  # otherwise, don't add item i
+                else:
+                    c[i][j] = c[i - 1][j]
+        self._solution = mp_solution.MPSolution()
+        self._solution.set_objective_value(float(c[n][W]))
+        # Set variables values.
+        i = len(c) - 1
+        W = len(c[0]) - 1
+        # Set everything as not marked
+        vars_vals = [0.0] * (i + 1)
+        while (i >= 0 and W >= 0):
+            if (i == 0 and c[i][W] > 0) or c[i][W] != c[i - 1][W]:
+                vars_vals[i] = 1.0
+                W = W - w[i]
+            i = i - 1
+        self._solution.set_variables_values(self._model.get_columns_names(),
+                                            vars_vals)
 
-  def get_solution(self):
-    return self._solution
+    def get_solution(self):
+        return self._solution

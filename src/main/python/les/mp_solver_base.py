@@ -13,31 +13,31 @@
 # limitations under the License.
 
 class MPSolverBase(object):
-  """This class describes mathematical programming (MP) solver base class. This
-  class is the base of all MP solver classes.
-  """
-
-  def load_model(self, model):
-    """Loads model to the solver.
-
-    :param model: A :class:`~les.mp_model.mp_model.MPModel` instance.
+    """This class describes mathematical programming (MP) solver base class. This
+    class is the base of all MP solver classes.
     """
-    raise NotImplementedError()
 
-  def get_solution(self):
-    """Return primal solution.
+    def load_model(self, model):
+        """Loads model to the solver.
 
-    :returns:
-    """
-    raise NotImplementedError()
+        :param model: A :class:`~les.mp_model.mp_model.MPModel` instance.
+        """
+        raise NotImplementedError()
 
-  def get_model(self):
-    """Returns model solved by this solver.
+    def get_solution(self):
+        """Return primal solution.
 
-    :returns: A :class:`~les.mp_model.mp_model.MPModel` instance.
-    """
-    raise NotImplementedError()
+        :returns:
+        """
+        raise NotImplementedError()
 
-  def solve(self):
-    """Starts model solving."""
-    raise NotImplementedError()
+    def get_model(self):
+        """Returns model solved by this solver.
+
+        :returns: A :class:`~les.mp_model.mp_model.MPModel` instance.
+        """
+        raise NotImplementedError()
+
+    def solve(self):
+        """Starts model solving."""
+        raise NotImplementedError()

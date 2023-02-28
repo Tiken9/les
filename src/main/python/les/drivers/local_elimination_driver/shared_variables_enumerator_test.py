@@ -23,23 +23,23 @@ from les.utils import unittest
 
 class SharedVariablesEnumeratorTest(unittest.TestCase):
 
-  def test_generate_models(self):
-    model = mp_model_builder.MPModelBuilder.build_from(
-      [8, 2, 5, 5],
-      [[2, 3, 4, 1],
-       [1, 2, 3, 2]],
-      ['L'] * 2,
-      [7, 6])
-    with self.assert_raises(enumerator.Error):
-      enumerator.SharedVariablesEnumerator(model, (u'x4', u'x6'), (u'x1', u'x3'))
-    g = enumerator.SharedVariablesEnumerator(model, (u'x3', u'x4'), (u'x1', u'x2'))
-    model_solution_pairs = list(g)
-    self.assert_equal(4, len(model_solution_pairs))
-    # Since we're doing maximization the first values for the given shared
-    # variables should be (1.0, 1.0).
-    relaxed_model, solution = model_solution_pairs[0]
-    self.assert_equal([0.0, 0.0, 1.0, 1.0], solution.get_variables_values().tolist())
+    def test_generate_models(self):
+        model = mp_model_builder.MPModelBuilder.build_from(
+            [8, 2, 5, 5],
+            [[2, 3, 4, 1],
+             [1, 2, 3, 2]],
+            ['L'] * 2,
+            [7, 6])
+        with self.assert_raises(enumerator.Error):
+            enumerator.SharedVariablesEnumerator(model, (u'x4', u'x6'), (u'x1', u'x3'))
+        g = enumerator.SharedVariablesEnumerator(model, (u'x3', u'x4'), (u'x1', u'x2'))
+        model_solution_pairs = list(g)
+        self.assert_equal(4, len(model_solution_pairs))
+        # Since we're doing maximization the first values for the given shared
+        # variables should be (1.0, 1.0).
+        relaxed_model, solution = model_solution_pairs[0]
+        self.assert_equal([0.0, 0.0, 1.0, 1.0], solution.get_variables_values().tolist())
 
 
 if __name__ == "__main__":
-  unittest.main()
+    unittest.main()

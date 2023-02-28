@@ -12,9 +12,9 @@ First, of all, you need to install prerequisites:
 
 ### Install SYMPHONY from binaries
 
-Download the binaries from <http://www.coin-or.org/download/binary/SYMPHONY/>,
-for example [SYMPHONY-5.2.0-Linux-x86-Install](http://www.coin-or.org/download/binary/SYMPHONY/SYMPHONY-5.2.0-Linux-x86-Install), move
-to the directory with installer and run installation process:
+Download the binaries from <http://www.coin-or.org/download/binary/SYMPHONY/>, for
+example [SYMPHONY-5.2.0-Linux-x86-Install](http://www.coin-or.org/download/binary/SYMPHONY/SYMPHONY-5.2.0-Linux-x86-Install)
+, move to the directory with installer and run installation process:
 
     $ wget http://www.coin-or.org/download/binary/SYMPHONY/SYMPHONY-5.2.0-Linux-x86-Install
     $ chmod +x SYMPHONY-5.2.0-Linux-x86-Install

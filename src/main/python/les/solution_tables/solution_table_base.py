@@ -13,19 +13,19 @@
 # limitations under the License.
 
 class SolutionTableBase(object):
-  '''Base class for all solution models.'''
+    '''Base class for all solution models.'''
 
-  def set_decomposition_tree(self, tree):
-    raise NotImplementedError()
+    def set_decomposition_tree(self, tree):
+        raise NotImplementedError()
 
-  def read_solution(self, model):
-    '''Reads solution for a given model. Returns variables values and objective
-    value.
-    '''
-    raise NotImplementedError()
+    def read_solution(self, model):
+        '''Reads solution for a given model. Returns variables values and objective
+        value.
+        '''
+        raise NotImplementedError()
 
-  def write_solution(self, model, solution):
-    '''Writes solution (variables values and objective value) for the given
-    model to the data model.
-    '''
-    raise NotImplementedError()
+    def write_solution(self, model, solution):
+        '''Writes solution (variables values and objective value) for the given
+        model to the data model.
+        '''
+        raise NotImplementedError()

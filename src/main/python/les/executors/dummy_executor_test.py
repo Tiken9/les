@@ -21,37 +21,37 @@ from les.mp_model import mp_model_builder
 from les.utils import unittest
 from les.pipeline import Pipeline
 
-
 DEFAULT_BACKEND_SOLVER_ID = backend_solvers.get_default_solver_id()
 
 
 @unittest.skip_if(DEFAULT_BACKEND_SOLVER_ID is None, 'no backend solvers')
 class DummyExecutorTest(unittest.TestCase):
 
-  def setup(self):
-    self.pipeline = Pipeline()
-    self.executor = dummy_executor.DummyExecutor(self.pipeline)
+    def setup(self):
+        self.pipeline = Pipeline()
+        self.executor = dummy_executor.DummyExecutor(self.pipeline)
 
-  def test_execute_task(self):
-    model = mp_model_builder.MPModelBuilder.build_from(
-      [8, 2, 5, 5, 8, 3, 9, 7, 6],
-      [[2, 3, 4, 1, 0, 0, 0, 0, 0],
-       [1, 2, 3, 2, 0, 0, 0, 0, 0],
-       [0, 0, 1, 4, 3, 4, 2, 0, 0],
-       [0, 0, 2, 1, 1, 2, 5, 0, 0],
-       [0, 0, 0, 0, 0, 0, 2, 1, 2],
-       [0, 0, 0, 0, 0, 0, 3, 4, 1]],
-      ['L'] * 6,
-      [7, 6, 9, 7, 3, 5]
-    )
-    request = self.pipeline.build_request()
-    request.set_model(model)
-    request.set_solver_id(DEFAULT_BACKEND_SOLVER_ID)
-    response = self.executor.execute(request)
-    self.assert_is_not_none(response)
-    solution = response.get_solution()
-    self.assert_is_not_none(solution)
-    self.assert_equal(39.0, solution.get_objective_value())
+    def test_execute_task(self):
+        model = mp_model_builder.MPModelBuilder.build_from(
+            [8, 2, 5, 5, 8, 3, 9, 7, 6],
+            [[2, 3, 4, 1, 0, 0, 0, 0, 0],
+             [1, 2, 3, 2, 0, 0, 0, 0, 0],
+             [0, 0, 1, 4, 3, 4, 2, 0, 0],
+             [0, 0, 2, 1, 1, 2, 5, 0, 0],
+             [0, 0, 0, 0, 0, 0, 2, 1, 2],
+             [0, 0, 0, 0, 0, 0, 3, 4, 1]],
+            ['L'] * 6,
+            [7, 6, 9, 7, 3, 5]
+        )
+        request = self.pipeline.build_request()
+        request.set_model(model)
+        request.set_solver_id(DEFAULT_BACKEND_SOLVER_ID)
+        response = self.executor.execute(request)
+        self.assert_is_not_none(response)
+        solution = response.get_solution()
+        self.assert_is_not_none(solution)
+        self.assert_equal(39.0, solution.get_objective_value())
+
 
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()

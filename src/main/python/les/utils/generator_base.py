@@ -13,13 +13,13 @@
 # limitations under the License.
 
 class GeneratorBase:
-  '''Base class for generators.'''
+    '''Base class for generators.'''
 
-  def __iter__(self):
-    return self
+    def __iter__(self):
+        return self
 
-  def has_next(self):
-    raise NotImplementedError()
+    def has_next(self):
+        raise NotImplementedError()
 
-  def __next__(self):
-    raise NotImplementedError()
+    def __next__(self):
+        raise NotImplementedError()

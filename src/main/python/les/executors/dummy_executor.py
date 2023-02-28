@@ -18,30 +18,30 @@ from les.utils import logging
 
 
 class Error(executor_base.Error):
-  pass
+    pass
 
 
 class DummyExecutor(executor_base.ExecutorBase):
-  """Dummy executor doesn't know how to parallelize solving process. It simply
-  solves models one by one in order they come.
-  """
+    """Dummy executor doesn't know how to parallelize solving process. It simply
+    solves models one by one in order they come.
+    """
 
-  def execute(self, request):
-    model = request.get_model()
-    logging.debug('Solve model %s that has %d row(s) and %d column(s)'
-                  ' with solver %s',
-                  model.get_name(), model.get_num_rows(),
-                  model.get_num_columns(), request.get_solver_id())
-    solver = backend_solvers.get_instance_of(request.get_solver_id())
-    if not solver:
-      raise Error("Cannot instantiate backend solver by id: %d" %
-                  request.get_solver_id())
-    try:
-      solver.load_model(model)
-      solver.solve()
-    except Error as e:
-      # TODO: send back a report.
-      logging.exception("Cannot execute given request: cannot solve the model.")
-      return None
-    response = self._pipeline.build_response(model, solver.get_solution())
-    return response
+    def execute(self, request):
+        model = request.get_model()
+        logging.debug('Solve model %s that has %d row(s) and %d column(s)'
+                      ' with solver %s',
+                      model.get_name(), model.get_num_rows(),
+                      model.get_num_columns(), request.get_solver_id())
+        solver = backend_solvers.get_instance_of(request.get_solver_id())
+        if not solver:
+            raise Error("Cannot instantiate backend solver by id: %d" %
+                        request.get_solver_id())
+        try:
+            solver.load_model(model)
+            solver.solve()
+        except Error as e:
+            # TODO: send back a report.
+            logging.exception("Cannot execute given request: cannot solve the model.")
+            return None
+        response = self._pipeline.build_response(model, solver.get_solution())
+        return response

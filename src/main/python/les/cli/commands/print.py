@@ -15,13 +15,14 @@
 from les.mp_model import MPModelBuilder
 from les.cli.commands import command_base
 
+
 class Print(command_base.CommandBase):
-  '''This class represent print command that prints given model.'''
+    '''This class represent print command that prints given model.'''
 
-  @classmethod
-  def setup_argparser(self, argparser):
-    pass
+    @classmethod
+    def setup_argparser(self, argparser):
+        pass
 
-  def run(self):
-    model = MPModelBuilder.build_from_file(self._args.file)
-    model.pprint()
+    def run(self):
+        model = MPModelBuilder.build_from_file(self._args.file)
+        model.pprint()

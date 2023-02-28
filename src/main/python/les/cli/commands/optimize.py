@@ -23,49 +23,47 @@ from les import decomposers
 from les.utils import logging
 from les.cli.commands import command_base
 
-
 DEFAULT_EXECUTOR = executors.DUMMY_EXECUTOR
 DEFAULT_BACKEND_SOLVER_ID = backend_solvers.get_default_solver_id()
 DEFAULT_DRIVER = drivers.LOCAL_ELIMINATION_DRIVER
 
 
 class Optimize(command_base.CommandBase):
+    default_arguments = (
+        ("--executor", {
+            "dest": "executor",
+            "type": int,
+            "metavar": "ID",
+            "default": DEFAULT_EXECUTOR,
+            "help": "executor id (default: %d)" % DEFAULT_EXECUTOR}),
+        ("--driver", {
+            "dest": "driver",
+            "type": int,
+            "metavar": "ID",
+            "default": DEFAULT_DRIVER,
+            "help": "driver name (default: %d)" % DEFAULT_DRIVER}),
+        ("--default-backend-solver", {
+            "dest": "default_backend_solver_id",
+            "type": int,
+            "metavar": "ID",
+            "default": DEFAULT_BACKEND_SOLVER_ID,
+            "help": ("default backend solver id (default: %d)"
+                     % DEFAULT_BACKEND_SOLVER_ID)}),
+    )
 
-  default_arguments = (
-    ("--executor", {
-        "dest": "executor",
-        "type": int,
-        "metavar": "ID",
-        "default": DEFAULT_EXECUTOR,
-        "help": "executor id (default: %d)" % DEFAULT_EXECUTOR}),
-    ("--driver", {
-        "dest": "driver",
-        "type": int,
-        "metavar": "ID",
-        "default": DEFAULT_DRIVER,
-        "help": "driver name (default: %d)" % DEFAULT_DRIVER}),
-    ("--default-backend-solver", {
-        "dest": "default_backend_solver_id",
-        "type": int,
-        "metavar": "ID",
-        "default": DEFAULT_BACKEND_SOLVER_ID,
-        "help": ("default backend solver id (default: %d)"
-                 % DEFAULT_BACKEND_SOLVER_ID)}),
-  )
+    def _get_optimization_parameters(self):
+        params = optimization_parameters.OptimizationParameters()
+        params.executor.executor = self._args.executor
+        params.driver.default_backend_solver = self._args.default_backend_solver_id
+        params.driver.driver = self._args.driver
+        return params
 
-  def _get_optimization_parameters(self):
-    params = optimization_parameters.OptimizationParameters()
-    params.executor.executor = self._args.executor
-    params.driver.default_backend_solver = self._args.default_backend_solver_id
-    params.driver.driver = self._args.driver
-    return params
-
-  def run(self):
-    model = mp_model.MPModelBuilder.build_from(self._args.file)
-    params = self._get_optimization_parameters()
-    model.optimize(params)
-    file = sys.stdout
-    file.write("Objective value: %f\n" % model.get_objective_value())
-    file.write("Variables:\n")
-    for i in range(model.get_num_columns()):
-      file.write("%15s = %f\n" % (model.columns_names[i], model.columns_values[i]))
+    def run(self):
+        model = mp_model.MPModelBuilder.build_from(self._args.file)
+        params = self._get_optimization_parameters()
+        model.optimize(params)
+        file = sys.stdout
+        file.write("Objective value: %f\n" % model.get_objective_value())
+        file.write("Variables:\n")
+        for i in range(model.get_num_columns()):
+            file.write("%15s = %f\n" % (model.columns_names[i], model.columns_values[i]))

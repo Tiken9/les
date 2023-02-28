@@ -22,26 +22,27 @@ from les.utils import logging
 
 DEFAULT_NODE_COLOR = 'white'
 
+
 class DrawInteractionGraph(command_base.CommandBase):
 
-  @classmethod
-  def setup_argparser(self, argparser):
-    argparser.add_argument('--node-color', dest='node_color', type=str,
-                           metavar='STR', default=DEFAULT_NODE_COLOR,
-                           help=('node color (default: %s)'
-                           % DEFAULT_NODE_COLOR))
+    @classmethod
+    def setup_argparser(self, argparser):
+        argparser.add_argument('--node-color', dest='node_color', type=str,
+                               metavar='STR', default=DEFAULT_NODE_COLOR,
+                               help=('node color (default: %s)'
+                                     % DEFAULT_NODE_COLOR))
 
-  def run(self):
-    try:
-      model = mp_model.build(self._args.file)
-    except Exception as e:
-      logging.exception('Cannot read the model.')
-      return
-    g = interaction_graph.InteractionGraph(model)
-    pos = networkx.spring_layout(g)
-    networkx.draw_networkx_nodes(g, pos, node_color=self._args.node_color)
-    networkx.draw_networkx_edges(g, pos, edge_color='black', arrows=True)
-    networkx.draw_networkx_labels(g, pos, font_family='sans-serif')
-    pylab.axis('off')
-    # TODO: allow user to save the result figure, e.g. plot.savefig(<FILENAME>).
-    pylab.show()
+    def run(self):
+        try:
+            model = mp_model.build(self._args.file)
+        except Exception as e:
+            logging.exception('Cannot read the model.')
+            return
+        g = interaction_graph.InteractionGraph(model)
+        pos = networkx.spring_layout(g)
+        networkx.draw_networkx_nodes(g, pos, node_color=self._args.node_color)
+        networkx.draw_networkx_edges(g, pos, edge_color='black', arrows=True)
+        networkx.draw_networkx_labels(g, pos, font_family='sans-serif')
+        pylab.axis('off')
+        # TODO: allow user to save the result figure, e.g. plot.savefig(<FILENAME>).
+        pylab.show()
