@@ -54,14 +54,14 @@ class QuadMPBuilder(mp_model_builder.MPModelBuilder):
                 self.add_variable(_var)
 
                 for constr in new_constraints[i]:
-                    print(self.add_constraint(constr))
+                    self.add_constraint(constr)
 
 
-    def quad_minimize(self, expr):
+    def quad_minimize(self, expr, name=None):
         new_vars, new_constrs, new_expr = self.convert_expr(expr)
         self.add_new_vars(new_vars, new_constrs)
 
-        self.set_objective(expr, maximization=False)
+        self.set_objective(expr, maximization=False, name=name)
 
     def set_quad_constraints(self, constraints):
         if not isinstance(constraints, collections.Iterable):
@@ -70,5 +70,5 @@ class QuadMPBuilder(mp_model_builder.MPModelBuilder):
             fixed_expr = constraint.lhs
             new_vars, new_constrs, new_expr = self.convert_expr(fixed_expr)
             self.add_new_vars(new_vars, new_constrs)
-            print(self.add_constraint(new_expr, _SYMPY_MPS_SENSE_MAPPING[constraint.rel_op], constraint.rhs))
+            self.add_constraint(new_expr, _SYMPY_MPS_SENSE_MAPPING[constraint.rel_op], constraint.rhs)
 
