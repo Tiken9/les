@@ -14,6 +14,7 @@
 
 from __future__ import absolute_import
 
+import logging
 from logging import *
 
 basic_config = basicConfig
