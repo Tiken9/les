@@ -51,9 +51,9 @@ def natural_language_api():
     x1, x2, x3, x4, x5, x6, x7, x8, x9 = (builder.add_binary_variable() for i in
                                           range(9))
     solve(builder.set_name("EDU1")
-          .maximize(8 * x1 + 2 * x2 + 5 * x3 + 5 * x4 + 8 * x5 + 3 * x6
+          .maximize(8 * x1 + 2 * x2 + 5 * x3*x3 + 5 * x4 + 8 * x5 + 3 * x6
                     + 9 * x7 + 7 * x8 + 6 * x9, "PROFIT")
-          .set_constraints([2 * x1 + 3 * x2 + 4 * x3 + x4 <= 7,
+          .set_constraints([2 * x1 + 3 * x2*x3 + 4 * x3 + x4 <= 7,
                             x1 + 2 * x2 + 3 * x3 + 2 * x4 <= 6,
                             x3 + 4 * x4 + 3 * x5 + 4 * x6 + 2 * x7 <= 9,
                             2 * x3 + x4 + x5 + 2 * x6 + 5 * x7 <= 7,

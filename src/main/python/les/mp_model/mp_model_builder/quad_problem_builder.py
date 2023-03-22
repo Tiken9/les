@@ -1,6 +1,4 @@
-import sympy
 import collections
-from sympy.core import relational
 
 from les.mp_model.mp_model_builder import binary_mp_variable
 from les.mp_model.mp_model_builder import mp_constraint

@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+from ortools.linear_solver.pywraplp import Objective
 from sympy.core import expr as sympy_expr
 
 from les import object_base

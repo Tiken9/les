@@ -58,7 +58,7 @@ class MPConstraint(object_base.ObjectBase):
 
     def get_rhs(self):
         """Returns constraint right-hand side value."""
-        return float(self._expr.rhs or self._expr.lhs)
+        return float(self._expr.rhs)
 
     def get_sense(self):
         return _SYMPY_MPS_SENSE_MAPPING[self._expr.rel_op]
